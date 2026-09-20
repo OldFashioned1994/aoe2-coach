@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block titulo %}{{ nombre }} · checklist{% endblock %}
+{% block contenido %}
+<div class="checklist" data-total="{{ pasos | length }}">
+  <div class="cl-cabecera">
+    <h1>{{ nombre }}</h1>
+    <p class="fuente">{{ autor }}{% if civ %} · adaptado para {{ civ }}{% endif %}</p>
+    <div class="cl-progreso"><div class="cl-barra" id="barra"></div></div>
+    <p class="cl-contador"><span id="indice">1</span> / {{ pasos | length }}</p>
+  </div>
+
+  {% for p in pasos %}
+  <article class="cl-paso" data-paso="{{ loop.index0 }}">
+    <div class="cl-meta">
+      <span class="cl-tiempo">{{ p[7] or '—' }}</span>
+      <span class="cl-vills">{{ p[1] or '?' }} vills</span>
+      <span class="cl-edad">{{ {1:'Oscura', 2:'Feudal', 3:'Castillos', 4:'Imperial'}.get(p[2], '') }}</span>
+    </div>
+    <div class="cl-reparto">
+      {% if p[3] %}<span class="rec comida">{{ p[3] }} comida</span>{% endif %}
+      {% if p[4] %}<span class="rec madera">{{ p[4] }} madera</span>{% endif %}
+      {% if p[5] %}<span class="rec oro">{{ p[5] }} oro</span>{% endif %}
+      {% if p[6] %}<span class="rec piedra">{{ p[6] }} piedra</span>{% endif %}
+    </div>
+    <p class="cl-nota">{{ p[8] }}</p>
+  </article>
+  {% endfor %}
+
+  <div class="cl-controles">
+    <button id="anterior">← anterior</button>
+    <button id="siguiente" class="primario">siguiente →</button>
+  </div>
+  <p class="cl-ayuda">Click en cualquier lado, barra espaciadora o flechas para avanzar.</p>
+</div>
+<script src="/static/checklist.js"></script>
+{% endblock %}

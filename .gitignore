@@ -1,0 +1,20 @@
+# entorno
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# datos descargados y regenerables (no se redistribuyen)
+data/raw/
+data/*.duckdb
+
+# build orders de rtsbuilds (GPL-3.0): los baja `ingest --solo builds`,
+# no los redistribuimos desde acá
+data/builds/
+
+# destilados del .dat del juego (contenido de Microsoft): los genera `ingest --solo dat`
+data/ref/gather_rates.json
+data/ref/tech_effects_eco.json
+
+# builds propios (si comprás una guía, va acá y no se sube)
+data/builds/propios/

@@ -1,0 +1,39 @@
+# Pesos del scoring de estrategias.
+#
+# Están acá y no en el código porque son la parte discutible del motor: cuánto pesa el win rate
+# observado de una apertura frente a la afinidad de tu civ o a la dificultad de ejecución.
+# Cambiar estos números cambia la recomendación, y eso tiene que ser visible y fácil de tocar.
+#
+# Todos los términos se expresan en "puntos de win rate" para que sean comparables entre sí:
+# un componente de +2 significa "equivale a 2 puntos porcentuales de win rate".
+
+version: 1
+
+pesos:
+  # Win rate de la apertura en ese mapa y tramo de Elo (AoE Pulse). El ancla del scoring.
+  apertura: 1.0
+  # Qué tanto el kit de la civ empuja hacia esta estrategia (bonos que la nombran).
+  afinidad_civ: 4.0
+  # Win rate del matchup civ contra civ (aoestats). Pesa menos porque no distingue mapa.
+  matchup_civ: 0.5
+  # Cómo le va a esta apertura contra la que más probablemente juegue el rival.
+  contra_apertura_esperada: 0.6
+  # Penalización por ejecutar algo exigente en tramos bajos, donde el win rate poblacional
+  # no es el tuyo: se resta (dificultad − umbral) × este peso.
+  dificultad: 1.2
+  # Ya no se usa como penalización: los componentes estadísticos se puntúan por el LÍMITE
+  # INFERIOR del intervalo de confianza, así que una muestra chica se castiga sola. El umbral
+  # de abajo sólo dispara el aviso en pantalla.
+  muestra_chica: 0.0
+  # El mapa no es el terreno donde esa estrategia funciona (Scout rush en Arena, por ejemplo).
+  perfil_incompatible: 8.0
+  # El dato no es del corte pedido y hubo que caer a uno más general (otro mapa, otro tramo).
+  # Sin esto, un promedio de todos los mapas le gana a un número medido en el mapa real.
+  evidencia_degradada: 2.5
+
+umbrales:
+  # A partir de esta dificultad se penaliza, y sólo en los tramos listados.
+  dificultad_penalizada_desde: 4
+  tramos_penalizados: [low, med_low]
+  # Debajo de esta muestra, el dato se considera flojo y se penaliza.
+  muestra_minima: 500

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block titulo %}Explorar datos · AoE2 Coach{% endblock %}
+{% block contenido %}
+<h1>Explorar los datos</h1>
+<p class="sub">Los mismos números que usa el motor, para mirarlos por tu cuenta.</p>
+
+<form class="tarjeta filtros" action="/datos" method="get">
+  <div class="campo">
+    <label for="mapa">Mapa</label>
+    <select name="mapa" id="mapa">
+      <option value="all" {% if mapa == 'all' %}selected{% endif %}>todos</option>
+      {% for m in mapas %}<option value="{{ m }}" {% if m == mapa %}selected{% endif %}>{{ m }}</option>{% endfor %}
+    </select>
+  </div>
+  <div class="campo">
+    <label for="bucket">Tramo de Elo</label>
+    <select name="bucket" id="bucket">
+      {% for b in ['all', 'low', 'med_low', 'medium', 'med_high', 'high'] %}
+      <option value="{{ b }}" {% if b == bucket %}selected{% endif %}>{{ b }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="campo">
+    <label for="orden">Ordenar por</label>
+    <select name="orden" id="orden">
+      <option value="win_rate" {% if orden == 'win_rate' %}selected{% endif %}>win rate</option>
+      <option value="n" {% if orden == 'n' %}selected{% endif %}>partidas</option>
+      <option value="play_rate" {% if orden == 'play_rate' %}selected{% endif %}>popularidad</option>
+    </select>
+  </div>
+  <button type="submit">Ver</button>
+</form>
+
+{% if aperturas %}
+<section class="tarjeta">
+  <h2>Aperturas</h2>
+  <table class="datos">
+    <thead><tr><th>apertura</th><th>win rate</th><th>intervalo</th><th>partidas</th></tr></thead>
+    <tbody>
+    {% for o in aperturas %}
+      <tr><td>{{ o[0] }}</td>
+          <td class="num {% if o[2] > 0.52 %}bien{% elif o[2] < 0.48 %}mal{% endif %}">{{ (o[2] * 100) | round(1) }}%</td>
+          <td class="num rango">{{ (o[3] * 100) | round(1) }} – {{ (o[4] * 100) | round(1) }}</td>
+          <td class="num">{{ "{:,}".format(o[1]).replace(",", ".") }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endif %}
+
+<section class="tarjeta">
+  <h2>Civilizaciones</h2>
+  {% if not filas %}<p class="advertencia">No hay datos para ese corte.</p>{% endif %}
+  <table class="datos">
+    <thead><tr><th>civ</th><th>win rate</th><th>intervalo</th><th>partidas</th><th>popularidad</th></tr></thead>
+    <tbody>
+    {% for f in filas %}
+      <tr><td>{{ f[0] }}</td>
+          <td class="num {% if f[2] > 0.52 %}bien{% elif f[2] < 0.48 %}mal{% endif %}">{{ (f[2] * 100) | round(1) }}%</td>
+          <td class="num rango">{{ (f[3] * 100) | round(1) }} – {{ (f[4] * 100) | round(1) }}</td>
+          <td class="num">{{ "{:,}".format(f[1]).replace(",", ".") }}</td>
+          <td class="num">{% if f[5] %}{{ (f[5] * 100) | round(1) }}%{% endif %}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

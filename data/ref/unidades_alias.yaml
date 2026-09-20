@@ -1,0 +1,46 @@
+# Alias en español → nombre interno del .dat.
+#
+# Por qué existe: los nombres legibles de las unidades NO están en ninguna fuente abierta que
+# usemos. El strings.json del tech tree trae 1063 cadenas (civs y tecnologías) pero no los ids
+# de los nombres de unidad — el 5083 del Archer, por ejemplo, no está. Y el .dat guarda el id
+# de la cadena, no la cadena.
+#
+# Entonces: el nombre visible es NUESTRO (traducción), y apunta a un `internal_name` que sí es
+# dato del juego. Cada uno fue verificado por costo y stats contra `ref_unit`, y un test
+# comprueba que exista; si el juego renombra algo, salta el test en vez de fallar en silencio.
+#
+# Ojo con los nombres internos heredados de Age of Empires I: el Skirmisher se llama XBOWM
+# ("crossbowman") y el Camel Rider CVLRY ("cavalry"). No son errores de tipeo.
+
+version: 1
+
+unidades:
+  # línea de arqueros (25 madera + 45 oro)
+  arquero: ARCHR            # 30 HP, 4 de ataque, alcance 4
+  ballestero: CARCH         # 35 HP, 5 de ataque, alcance 5
+  arbalestero: ACOAR        # 40 HP, 6 de ataque, alcance 5
+
+  # línea de escaramuzadores (25 comida + 35 madera)
+  escaramuzador: XBOWM      # 30 HP, 2 de ataque
+  escaramuzador de elite: HXBOW
+
+  # línea de lanceros (35 comida + 25 madera)
+  lancero: PKEMN            # 45 HP, 3 de ataque
+  piquero: ISPKM            # 55 HP, 4 de ataque
+  alabardero: HLBDM         # 60 HP, 6 de ataque
+
+  # línea de milicia (50 comida + 20 oro)
+  milicia: SPRMN            # 40 HP, 4 de ataque
+  hombre de armas: SWDMN    # 45 HP, 6 de ataque
+  espada larga: THSWD       # 60 HP, 9 de ataque
+
+  # caballería
+  explorador: SCOUT         # 45 HP, 3 de ataque, 80 comida
+  caballeria ligera: LTCAV
+  caballero: KNGHT          # 100 HP, 10 de ataque, 60 comida + 75 oro
+  paladin: PALDN
+  camello: CVLRY            # 100 HP, 6 de ataque, 55 comida + 60 oro
+  arquero a caballo: CVRCH  # 50 HP, 6 de ataque, 40 madera + 60 oro
+
+  # otros
+  monje: MONKX

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block contenido %}
+<h1>¿Qué juego?</h1>
+<p class="sub">Decime el contexto y te digo con qué ir, por qué, y el build paso a paso.</p>
+
+<form class="tarjeta formulario" action="/reporte" method="get">
+  <div class="campo">
+    <label for="mapa">Mapa</label>
+    <select name="mapa" id="mapa" required>
+      {% for m in mapas %}<option value="{{ m }}" {% if m == 'arabia' %}selected{% endif %}>{{ m }}</option>{% endfor %}
+    </select>
+  </div>
+
+  <div class="campo">
+    <label for="elo">Tu Elo</label>
+    <input type="number" name="elo" id="elo" value="500" min="0" max="3000" required>
+  </div>
+
+  <div class="campo">
+    <label for="civ">Tu civilización</label>
+    <select name="civ" id="civ">
+      <option value="">— que me la recomiende —</option>
+      {% for c in civs %}<option value="{{ c }}">{{ c }}</option>{% endfor %}
+    </select>
+  </div>
+
+  <div class="campo">
+    <label for="rival">Civilización rival <span class="opcional">(si la conocés)</span></label>
+    <select name="rival" id="rival">
+      <option value="">— no sé —</option>
+      {% for c in civs %}<option value="{{ c }}">{{ c }}</option>{% endfor %}
+    </select>
+  </div>
+
+  <button type="submit">Armar el plan</button>
+</form>
+{% endblock %}

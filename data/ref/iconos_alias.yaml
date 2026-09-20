@@ -1,0 +1,78 @@
+# Íconos de los build orders → palabra legible en español.
+#
+# Los builds de rtsbuilds escriben los pasos con marcadores tipo
+# `@resource/MaleVillDE.webp@`, que sin traducir quedan como "MaleVill" o "Aoe2de wood" en
+# medio de la frase. Esto es traducción nuestra, no dato del juego: sólo cambia cómo se lee
+# el paso, nunca lo que el paso dice que hagas.
+#
+# La clave es el nombre del archivo sin extensión y sin los sufijos DE / _aoe2de / _alpha.
+# Lo que no figure acá se muestra con su nombre original, que es feo pero honesto.
+
+version: 1
+
+iconos:
+  # gente y recursos
+  malevill: aldeanos
+  femalevill: aldeanas
+  villager: aldeanos
+  aoe2de_wood: madera
+  aoe2de_food: comida
+  aoe2de_gold: oro
+  aoe2de_stone: piedra
+  aoe2de_hammer: construir
+  tree: árboles
+
+  # comida del mapa
+  sheep: ovejas
+  boar: jabalí
+  deer: ciervos
+  berrybush: bayas
+  forageberrybush: bayas
+
+  # edificios
+  house: casa
+  towncenter: Centro Urbano
+  mill: molino
+  lumber_camp: campamento maderero
+  mining_camp: campamento minero
+  farm: granja
+  barracks: cuartel
+  archery_range: galería de tiro
+  stable: establo
+  blacksmith: herrería
+  market: mercado
+  monastery: monasterio
+  siege_workshop: taller de asedio
+  castle: castillo
+  tower: torre
+  palisade_wall: empalizada
+  dock: puerto
+  mulecart: carro
+
+  # unidades
+  scoutcavalry: exploradores
+  knight: caballeros
+  archer: arqueros
+  militia: milicia
+  manatarms: hombres de armas
+  spearman: lanceros
+  skirmisher: escaramuzadores
+  monk: monjes
+  villager_unit: aldeanos
+
+  # edades y tecnologías
+  feudalageicon: Edad Feudal
+  castleageicon: Edad de los Castillos
+  imperialageicon: Edad Imperial
+  darkageicon: Edad Oscura
+  loom: telar
+  doublebitaxe: Doble Filo
+  bowsaw: Sierra de Arco
+  horsecollar: Collera
+  heavyplow: Arado Pesado
+  fletching: Emplumado
+  bloodlines: Linaje
+  forging: Forjado
+  wheelbarrow: Carretilla
+  goldmining: Minería de Oro
+  handcart: Carro de Mano

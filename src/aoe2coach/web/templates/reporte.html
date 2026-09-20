@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block titulo %}{{ r.contexto.civ or 'plan' }} en {{ r.contexto.mapa }} · AoE2 Coach{% endblock %}
+{% macro ev(e) %}
+  <span class="dato">{{ e.pct }}</span>
+  {% if e.n %}<span class="muestra">n={{ "{:,}".format(e.n).replace(",", ".") }}</span>{% endif %}
+  <span class="fuente">{{ e.fuente }}</span>
+  {% if e.nota %}<span class="nota">{{ e.nota }}</span>{% endif %}
+{% endmacro %}
+{% block contenido %}
+
+<h1>{{ r.contexto.civ or '—' }}{% if r.contexto.civ_rival %} <small>contra</small> {{ r.contexto.civ_rival }}{% endif %}</h1>
+<p class="sub">{{ r.contexto.mapa }} · Elo {{ r.contexto.elo }} (tramo {{ r.elo_bucket }})</p>
+
+{% for a in r.advertencias %}<p class="advertencia">{{ a }}</p>{% endfor %}
+
+{% if r.perfil_mapa.perfil != 'desconocido' %}
+<section class="tarjeta">
+  <h2>El mapa</h2>
+  <p><strong>{{ r.perfil_mapa.mapa }}</strong>: {{ r.perfil_mapa.perfil }} —
+     Fast Castle en el {{ (r.perfil_mapa.fc_share * 100) | round | int }}% de las partidas
+     <span class="muestra">n={{ "{:,}".format(r.perfil_mapa.n_aperturas).replace(",", ".") }}</span>
+     {% if r.perfil_mapa.agua in ('si', 'parcial') %}· con agua{% endif %}
+  </p>
+  <p class="fuente">Perfil derivado de los datos, no declarado a mano.</p>
+</section>
+{% endif %}
+
+{% if r.civs_sugeridas %}
+<section class="tarjeta">
+  <h2>Qué civ elegir</h2>
+  <p class="sub">Ordenadas por rendimiento medido en este mapa y tramo.</p>
+  <ol class="ranking">
+    {% for c in r.civs_sugeridas %}
+    <li class="{% if loop.first %}destacado{% endif %}">
+      <div class="fila-civ"><span class="nombre">{{ c.civ }}</span><span class="puntaje">{{ "%+.2f"|format(c.score) }}</span></div>
+      {% for comp in c.componentes %}
+        <div class="componente">
+          {% if comp.puntos %}<span class="puntos">{{ "%+.2f"|format(comp.puntos) }}</span>{% endif %}
+          <span class="etiqueta">{{ comp.nombre }}:</span> {{ comp.detalle }}
+        </div>
+      {% endfor %}
+    </li>
+    {% endfor %}
+  </ol>
+  <p class="fuente">El plan de abajo está armado con {{ r.civs_sugeridas[0].civ }}.</p>
+</section>
+{% endif %}
+
+{% if r.analisis_matchup %}
+<section class="tarjeta">
+  <h2>El matchup</h2>
+  <table>
+    {% for etiqueta, e in r.analisis_matchup.items() %}
+    <tr><th>{{ etiqueta }}</th><td>{{ ev(e) }}</td></tr>
+    {% endfor %}
+  </table>
+</section>
+{% endif %}
+
+{% if r.estrategia %}
+<section class="tarjeta destacada">
+  <h2>Estrategia: {{ r.estrategia.nombre }}</h2>
+  <p>{{ r.estrategia.descripcion }}</p>
+  <p class="puntaje-total">Puntaje {{ "%+.2f"|format(r.estrategia.score) }}, así se compone:</p>
+  {% for c in r.estrategia.componentes %}
+    <div class="componente">
+      <span class="puntos {% if c.puntos > 0 %}bien{% elif c.puntos < 0 %}mal{% endif %}">{{ "%+.2f"|format(c.puntos) }}</span>
+      <span class="etiqueta">{{ c.nombre }}:</span> {{ c.detalle }}
+    </div>
+  {% endfor %}
+</section>
+{% endif %}
+
+{% if r.alternativas %}
+<section class="tarjeta">
+  <h2>Alternativas</h2>
+  {% for a in r.alternativas %}
+    <div class="alternativa">
+      <span class="puntaje">{{ "%+.2f"|format(a.score) }}</span> <strong>{{ a.nombre }}</strong>
+      {% for c in a.componentes %}{% if c.puntos %}<div class="componente"><span class="puntos">{{ "%+.2f"|format(c.puntos) }}</span> {{ c.nombre }}: {{ c.detalle }}</div>{% endif %}{% endfor %}
+    </div>
+  {% endfor %}
+</section>
+{% endif %}
+
+{% if r.build %}
+<section class="tarjeta">
+  <h2>Build order: {{ r.build.nombre }}</h2>
+  <p class="fuente">Autor: <strong>{{ r.build.autor }}</strong> ·
+     <a href="{{ r.build.fuente }}" target="_blank" rel="noopener">fuente</a> ·
+     {{ r.build.nota_seleccion }}</p>
+  {% if r.build.uptime_esperado and r.build.uptime_esperado.valor %}
+  <p>Uptime a Feudal de jugadores reales de tu nivel:
+     <strong>{{ (r.build.uptime_esperado.valor // 60) | int }}:{{ '%02d' % ((r.build.uptime_esperado.valor % 60) | int) }}</strong>
+     <span class="muestra">n={{ "{:,}".format(r.build.uptime_esperado.n).replace(",", ".") }}</span></p>
+  {% endif %}
+  <p><a class="boton" href="/checklist/{{ r.build.build_id }}?civ={{ r.contexto.civ or '' }}">Abrir como checklist para jugar →</a></p>
+  <table class="build">
+    <thead><tr><th>Tiempo</th><th>Vills</th><th>C</th><th>M</th><th>O</th><th>P</th><th>Qué hacer</th></tr></thead>
+    <tbody>
+    {% for p in r.build.pasos %}
+      <tr>
+        <td class="tiempo">{{ p.tiempo or '' }}</td><td>{{ p.villager_count or '' }}</td>
+        <td>{{ p.food or '' }}</td><td>{{ p.wood or '' }}</td><td>{{ p.gold or '' }}</td><td>{{ p.stone or '' }}</td>
+        <td>{{ p.notas }}{% if p.ajuste_civ %}<div class="ajuste">↳ {{ p.ajuste_civ }}</div>{% endif %}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endif %}
+
+{% if r.calculos %}
+<section class="tarjeta">
+  <h2>La cuenta detrás</h2>
+  {% for c in r.calculos %}
+    <div class="calculo">
+      <h3>{{ c.titulo }}</h3>
+      <p class="resultado">{{ c.resultado }}</p>
+      <pre>{{ c.formula }}</pre>
+      <ul class="supuestos">{% for s in c.supuestos %}<li>{{ s }}</li>{% endfor %}</ul>
+      <p class="fuente">{{ c.fuente }}</p>
+    </div>
+  {% endfor %}
+</section>
+{% endif %}
+
+{% if r.plan_b %}
+<section class="tarjeta">
+  <h2>Plan B: qué mirar y cómo adaptar</h2>
+  {% for s in r.plan_b %}
+    <div class="senal">
+      <p><strong>Si ves {{ s.si_ves }}</strong> → pasá a «{{ s.transicionar_a }}»</p>
+      {% if s.motivo %}<p class="motivo">{{ s.motivo }}</p>{% endif %}
+      {% if s.respaldo %}<p class="fuente">{{ s.respaldo }}</p>{% endif %}
+    </div>
+  {% endfor %}
+</section>
+{% endif %}
+
+<p><a class="volver" href="/">← cambiar el contexto</a></p>
+{% endblock %}

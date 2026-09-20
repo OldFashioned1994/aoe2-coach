@@ -1,0 +1,259 @@
+# Bonos de civilización, modelados a mano con su efecto numérico.
+#
+# Por qué existe este archivo: el tech tree trae los bonos SÓLO como texto — `civs.<Civ>.meta`
+# viene vacío. Sin esto no se puede calcular cuántos recursos vale un bono al minuto X.
+#
+# Reglas:
+#   - `texto_en` es la cita textual del juego (locale en). Se usa el inglés porque el español es
+#     ambiguo justo donde importa: "recolectores" traduce "foragers", que son sólo los de bayas.
+#   - `tipo` + `efecto` es lo que el motor puede calcular. Lo que no se puede modelar va con
+#     tipo `otro`: se muestra al usuario, pero no entra en ninguna cuenta.
+#   - `favorece` sale del propio texto del bono (si nombra la línea de scouts, favorece scouts).
+#     No es opinión: si el bono no nombra nada, la lista va vacía.
+#
+# Cobertura: las 16 civs más jugadas del ladder por play rate (patch 162286), que suman ~48 %
+# de las partidas. El resto se responde con estadística y tech tree, sin cálculo de bonos.
+
+version: 1
+
+civs:
+  mongols:
+    bonos:
+      - texto_en: Hunters work +40% faster
+        tipo: gather_rate
+        efecto: {tarea: caza y jabali, multiplicador: 1.40}
+        favorece: [scouts, maa_archers, drush_fc]
+      - texto_en: Cavalry Archers attack +25% faster
+        tipo: otro
+        favorece: []
+      - texto_en: Scout Cavalry-line and Steppe Lancers +20/30% HP in Castle/Imperial Age
+        tipo: stat_unidad
+        efecto: {unidad: scout cavalry, stat: hp, multiplicador: 1.20, desde_edad: castle}
+        favorece: [scouts]
+
+  franks:
+    bonos:
+      - texto_en: Foragers work +15% faster
+        tipo: gather_rate
+        efecto: {tarea: bayas, multiplicador: 1.15}
+        favorece: []
+      - texto_en: Mill technologies free
+        tipo: tech_gratis
+        efecto: {techs: [horse collar, heavy plow, crop rotation]}
+        favorece: [fc_boom, fast_castle_knights]
+      - texto_en: Mounted Units +20% HP starting in Feudal Age
+        tipo: stat_unidad
+        efecto: {unidad: scout cavalry, stat: hp, multiplicador: 1.20, desde_edad: feudal}
+        favorece: [scouts, fast_castle_knights]
+      - texto_en: Castles cost -15/25% in Castle/Imperial Age
+        tipo: otro
+        favorece: []
+
+  persians:
+    bonos:
+      - texto_en: Start with +50 wood and +50 food
+        tipo: recurso_inicial
+        efecto: {wood: 50, food: 50}
+        favorece: [scouts, archers, maa_archers, drush_fc, fast_castle_knights, fc_boom]
+      - texto_en: >-
+          Town Centers and Docks +100% HP and work +5/10/15/20% faster in
+          Dark/Feudal/Castle/Imperial Age
+        tipo: produccion_mas_rapida
+        efecto: {edificio: town center, multiplicador_por_edad: {dark: 1.05, feudal: 1.10, castle: 1.15, imperial: 1.20}}
+        favorece: [fc_boom]
+      - texto_en: Parthian Tactics available in Castle Age
+        tipo: otro
+        favorece: []
+
+  magyars:
+    bonos:
+      - texto_en: Scout Cavalry-line costs -15%
+        tipo: descuento_unidad
+        efecto: {unidad: scout cavalry, descuento: 0.15}
+        favorece: [scouts]
+      - texto_en: Melee attack upgrades free
+        tipo: tech_gratis
+        efecto: {techs: [forging, iron casting, blast furnace]}
+        favorece: [scouts, maa_archers]
+      - texto_en: Villagers defeat wolves with one strike
+        tipo: otro
+        favorece: []
+
+  spanish:
+    bonos:
+      - texto_en: Builders work +30% faster
+        tipo: construccion_mas_rapida
+        efecto: {multiplicador: 1.30}
+        favorece: [fc_boom]
+      - texto_en: Blacksmith upgrades cost no gold
+        tipo: descuento_tech
+        efecto: {edificio: blacksmith, recurso: gold, descuento: 1.0}
+        favorece: [scouts, archers, maa_archers]
+      - texto_en: Receive +20 gold for each technology researched
+        tipo: otro
+        favorece: []
+      - texto_en: Gunpowder Units attack +18% faster
+        tipo: otro
+        favorece: []
+
+  britons:
+    bonos:
+      - texto_en: Shepherds work +25% faster
+        tipo: gather_rate
+        efecto: {tarea: ovejas, multiplicador: 1.25}
+        favorece: [scouts, archers, maa_archers, drush_fc, fast_castle_knights, fc_boom]
+      - texto_en: Town Centers cost -50% wood starting in Castle Age
+        tipo: descuento_edificio
+        efecto: {edificio: town center, recurso: wood, descuento: 0.50, desde_edad: castle}
+        favorece: [fc_boom]
+      - texto_en: Foot Archers +1/+2 range in Castle/Imperial Age
+        tipo: otro
+        favorece: [archers]
+
+  khmer:
+    bonos:
+      - texto_en: No buildings required to advance to the next Age or to unlock other buildings
+        tipo: ahorro_edificio_prerequisito
+        efecto: {ahorra_edificios_por_edad: 1}
+        favorece: [fast_castle_knights, fc_boom]
+      - texto_en: Farmers don't require Mills or Town Centers to drop off food
+        tipo: otro
+        favorece: [fc_boom]
+      - texto_en: Villagers can garrison in Houses
+        tipo: otro
+        favorece: []
+
+  vietnamese:
+    bonos:
+      - texto_en: Economic upgrades cost no wood and research +100% faster
+        tipo: descuento_tech
+        efecto: {techs: [horse collar, heavy plow, crop rotation, double-bit axe, bow saw, two-man saw, gold mining, gold shaft mining, stone mining, stone shaft mining, wheelbarrow, hand cart], recurso: wood, descuento: 1.0}
+        favorece: [fc_boom, fast_castle_knights]
+      - texto_en: Enemy Town Centers are revealed at the start of the game
+        tipo: otro
+        favorece: [drush_fc, maa_archers]
+      - texto_en: Archery Range units and Fire Lancers +20% HP
+        tipo: stat_unidad
+        efecto: {unidad: archer, stat: hp, multiplicador: 1.20}
+        favorece: [archers]
+
+  teutons:
+    bonos:
+      - texto_en: Farms cost -40%
+        tipo: descuento_edificio
+        efecto: {edificio: farm, recurso: wood, descuento: 0.40}
+        favorece: [fc_boom, fast_castle_knights]
+      - texto_en: Barracks and Stable Units +1/+2 melee armor in Castle/Imperial Age
+        tipo: stat_unidad
+        efecto: {unidad: knight, stat: melee_armor, suma: 1, desde_edad: castle}
+        favorece: [fast_castle_knights]
+      - texto_en: Murder Holes, Herbal Medicine free
+        tipo: tech_gratis
+        efecto: {techs: [murder holes, herbal medicine]}
+        favorece: []
+
+  byzantines:
+    bonos:
+      - texto_en: Camel Riders, Skirmishers and Spearman-line cost -25%
+        tipo: descuento_unidad
+        efecto: {unidades: [skirmisher, spearman], descuento: 0.25}
+        favorece: [archers]
+      - texto_en: Town Watch, Town Patrol free
+        tipo: tech_gratis
+        efecto: {techs: [town watch, town patrol]}
+        favorece: []
+      - texto_en: Advancing to Imperial Age costs -33%
+        tipo: otro
+        favorece: []
+      - texto_en: Buildings +10/20/30/40% HP in Dark/Feudal/Castle/Imperial Age
+        tipo: otro
+        favorece: []
+
+  japanese:
+    bonos:
+      - texto_en: Mills, Lumber- and Mining Camps cost -50%
+        tipo: descuento_edificio
+        efecto: {edificios: [mill, lumber camp, mining camp], recurso: wood, descuento: 0.50}
+        favorece: [scouts, archers, maa_archers, drush_fc, fast_castle_knights, fc_boom]
+      - texto_en: Infantry attacks +33% faster starting in Feudal Age
+        tipo: stat_unidad
+        efecto: {unidad: man-at-arms, stat: attack_speed, multiplicador: 1.33, desde_edad: feudal}
+        favorece: [maa_archers, drush_fc]
+
+  ethiopians:
+    bonos:
+      - texto_en: Receive +100 gold and +100 food when advancing to the next Age
+        tipo: recurso_por_edad
+        efecto: {gold: 100, food: 100}
+        favorece: [archers, fast_castle_knights, fc_boom]
+      - texto_en: Foot Archers attack +18% faster
+        tipo: stat_unidad
+        efecto: {unidad: archer, stat: attack_speed, multiplicador: 1.18}
+        favorece: [archers]
+      - texto_en: Pikeman upgrade free
+        tipo: tech_gratis
+        efecto: {techs: [pikeman]}
+        favorece: []
+
+  huns:
+    bonos:
+      - texto_en: Do not need houses, but start with -100 wood
+        tipo: ahorro_edificio
+        efecto: {edificio: house, ahorro_total_wood_por_casa: 25, penalidad_inicial_wood: 100}
+        favorece: [scouts, archers, maa_archers, drush_fc, fast_castle_knights]
+      - texto_en: Cavalry Archers cost -10/20% in Castle/Imperial Age
+        tipo: otro
+        favorece: []
+
+  lithuanians:
+    bonos:
+      - texto_en: Each Town Center provides +100 food
+        tipo: recurso_inicial
+        efecto: {food: 100}
+        favorece: [scouts, archers, maa_archers, drush_fc, fast_castle_knights, fc_boom]
+      - texto_en: Spearman-line and Skirmisher-line move +10% faster
+        tipo: otro
+        favorece: []
+
+  turks:
+    bonos:
+      - texto_en: Gold miners work +25% faster
+        tipo: gather_rate
+        efecto: {tarea: oro, multiplicador: 1.25}
+        favorece: [archers, fast_castle_knights]
+      - texto_en: Scout Cavalry-line +1 pierce armor and upgrades free
+        tipo: stat_unidad
+        efecto: {unidad: scout cavalry, stat: pierce_armor, suma: 1}
+        favorece: [scouts]
+      - texto_en: Chemistry free; Gunpowder technologies costs -50%
+        tipo: tech_gratis
+        efecto: {techs: [chemistry]}
+        favorece: []
+
+  portuguese:
+    bonos:
+      - texto_en: All units cost -20% gold
+        tipo: descuento_unidad
+        efecto: {todas: true, recurso: gold, descuento: 0.20}
+        favorece: [archers, fast_castle_knights]
+      - texto_en: Foragers generate wood in addition to food
+        tipo: gather_extra
+        efecto: {tarea: bayas, recurso_extra: wood}
+        favorece: [archers]
+
+  goths:
+    bonos:
+      # El texto del juego corta la línea en "Imperial Age"; se cita tal cual aparece.
+      - texto_en: Infantry costs -15/20/25/30% in Dark/Feudal/Castle/
+        tipo: descuento_unidad
+        efecto: {unidad: man-at-arms, descuento_por_edad: {dark: 0.15, feudal: 0.20, castle: 0.25, imperial: 0.30}}
+        favorece: [maa_archers, drush_fc]
+      - texto_en: Hunters carry +15; hunted animals last +20% longer
+        tipo: otro
+        favorece: [scouts, maa_archers, drush_fc]
+      - texto_en: Loom is researched instantly
+        tipo: otro
+        favorece: [drush_fc]
+      - texto_en: +10 population space in Imperial Age
+        tipo: otro
+        favorece: []

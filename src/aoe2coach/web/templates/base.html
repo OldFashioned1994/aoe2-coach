@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}AoE2 Coach{% endblock %}</title>
+  <link rel="stylesheet" href="/static/estilo.css">
+</head>
+<body>
+  <header class="barra">
+    <a class="marca" href="/">AoE2 <span>Coach</span></a>
+    <nav>
+      <a href="/">Recomendación</a>
+      <a href="/datos">Explorar datos</a>
+    </nav>
+  </header>
+
+  <div class="aviso-patch">
+    Datos del patch <strong>{{ data_patch }}</strong> ({{ data_patch_date }}), partidas hasta el
+    {{ data_cutoff }} · el juego corre el patch <strong>{{ game_patch }}</strong> ({{ game_patch_date }})
+  </div>
+
+  <main>{% block contenido %}{% endblock %}</main>
+
+  <footer>
+    Cada número lleva su fuente y su tamaño de muestra. Lo que no se midió, se dice.
+  </footer>
+</body>
+</html>

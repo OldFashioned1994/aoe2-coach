@@ -1,0 +1,133 @@
+# Catálogo de estrategias — el puente entre los tres vocabularios del proyecto.
+#
+# Cada estrategia une:
+#   - `apertura_pulse`      cómo la llama AoE Pulse (de ahí sale el win rate y el matchup)
+#   - `opening_2023`        cómo la llamaba aoestats cuando había datos de replay (uptimes)
+#   - `patrones_build`      cómo reconocer los build orders que la ejecutan
+#
+# `dificultad` es lo ÚNICO de este archivo que es juicio y no dato: 1 = la ejecuta cualquiera,
+# 5 = necesita ejecución precisa o se te cae encima. Se usa para penalizar estrategias exigentes
+# a Elo bajo, donde el win rate poblacional no es tu win rate esperado. Está acá, editable,
+# justamente para poder discutirlo.
+
+version: 1
+
+estrategias:
+  - id: scouts
+    nombre: Scout rush
+    descripcion: >-
+      Feudal rápido con caballería ligera para hostigar aldeanos y forzar al rival a reaccionar.
+      La apertura más jugada del ladder en mapas abiertos.
+    apertura_pulse: Scouts Any
+    aperturas_relacionadas: [Scouts No Feudal Followup, Scouts Range Followup]
+    opening_2023: scouts
+    unidad_principal: explorador
+    counter_esperado: lancero
+    patrones_build: [scout]
+    dificultad: 2
+    perfiles_mapa: [abierto, semicerrado]
+    señales:
+      - si_ves: piqueros en cantidad antes del minuto 12
+        transicionar_a: archers
+        motivo_counter: [lancero, explorador]
+      - si_ves: muros completos y sin unidades afuera
+        transicionar_a: fast_castle_knights
+        motivo: el hostigamiento dejó de rendir; capitalizá la ventaja de tiempo
+
+  - id: archers
+    nombre: Arqueros (Range opener)
+    descripcion: >-
+      Uno o dos ranges en Feudal. Pega fuerte contra infantería y aldeanos, pero pierde contra
+      skirmishers y exige más madera que scouts.
+    apertura_pulse: Range Opener Any
+    aperturas_relacionadas: []
+    opening_2023: archers
+    unidad_principal: arquero
+    counter_esperado: escaramuzador
+    patrones_build: [archer, range]
+    dificultad: 3
+    perfiles_mapa: [abierto, semicerrado]
+    señales:
+      - si_ves: skirmishers del rival
+        transicionar_a: fast_castle_knights
+        motivo_counter: [escaramuzador, arquero]
+      - si_ves: scouts del rival sin piqueros
+        transicionar_a: archers
+        motivo: los arqueros ya ganan ese cambio; sumá un range en vez de cambiar de plan
+
+  - id: maa_archers
+    nombre: Man-at-Arms → arqueros
+    descripcion: >-
+      Presión temprana con infantería mejorada que se transforma en arqueros. Castiga al rival
+      que va todo a economía, pero atrasa tu propio Feudal si no cierra.
+    apertura_pulse: MAA Any
+    aperturas_relacionadas: [MAA Range Followup, MAA No Feudal Followup]
+    opening_2023: man_at_arms
+    unidad_principal: hombre de armas
+    counter_esperado: arquero
+    patrones_build: [man-at-arms, maa, militia]
+    dificultad: 4
+    perfiles_mapa: [abierto, semicerrado]
+    señales:
+      - si_ves: torres o muros tempranos
+        transicionar_a: fast_castle_knights
+        motivo: la presión no va a entrar; cortá pérdidas y subí
+
+  - id: drush_fc
+    nombre: Drush → Fast Castle
+    descripcion: >-
+      Tres milicias en Oscura para molestar y frenar al rival, y de ahí directo a Castillos.
+      Alto riesgo: si el drush no hace daño, pagaste el costo igual.
+    apertura_pulse: Premill Drush FC
+    aperturas_relacionadas: [Postmill Drush FC, Premill Drush Any, Postmill Drush Any]
+    opening_2023: drush
+    unidad_principal: milicia
+    counter_esperado: arquero
+    patrones_build: [drush]
+    dificultad: 5
+    perfiles_mapa: [abierto, semicerrado, cerrado]
+    señales:
+      - si_ves: que el rival te frenó el drush sin perder aldeanos
+        transicionar_a: fast_castle_knights
+        motivo: no insistas; el valor del drush ya se consumió
+
+  - id: fast_castle_knights
+    nombre: Fast Castle → Caballeros
+    descripcion: >-
+      Subir a Castillos sin pelear en Feudal y salir con caballeros. Premia la economía y castiga
+      al que se quedó en unidades baratas.
+    apertura_pulse: Straight FC
+    aperturas_relacionadas: []
+    opening_2023: fast_castle
+    unidad_principal: caballero
+    counter_esperado: piquero
+    patrones_build: [knight, fast castle, fc]
+    dificultad: 3
+    perfiles_mapa: [abierto, semicerrado, cerrado]
+    señales:
+      - si_ves: piqueros o camellos
+        transicionar_a: archers
+        motivo_counter: [piquero, caballero]
+
+  - id: fc_boom
+    nombre: Fast Castle → boom
+    descripcion: >-
+      Castillos rápido y segundo Town Center. El plan estándar de los mapas cerrados, donde no
+      hay presión temprana que castigue la codicia.
+    apertura_pulse: Straight FC
+    aperturas_relacionadas: []
+    opening_2023: fast_castle
+    unidad_principal: caballero
+    counter_esperado: piquero
+    patrones_build: [boom, castle drop, arena]
+    dificultad: 2
+    perfiles_mapa: [cerrado, semicerrado]
+    señales:
+      - si_ves: castillo adelantado del rival
+        transicionar_a: fast_castle_knights
+        motivo: no podés seguir con el boom; necesitás ejército ya
+
+# Nota importante: `Straight FC` es una sola etiqueta en Pulse y no distingue el FC agresivo
+# (caballeros) del FC codicioso (boom). Por eso `fast_castle_knights` y `fc_boom` comparten
+# estadística: el motor tiene que decirlo cuando las muestre, en vez de fingir que son dos
+# números distintos.

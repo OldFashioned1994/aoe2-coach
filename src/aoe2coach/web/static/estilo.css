@@ -1,0 +1,152 @@
+/* AoE2 Coach — oscuro y legible, pensado para mirarse de reojo en una segunda pantalla. */
+
+:root {
+  --fondo: #14120f;
+  --panel: #1d1a16;
+  --panel-alto: #262118;
+  --borde: #3a332a;
+  --texto: #e9e3d8;
+  --tenue: #9d9384;
+  --acento: #d4a843;
+  --bien: #6fbf73;
+  --mal: #d9736a;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font: 16px/1.55 system-ui, "Segoe UI", sans-serif;
+}
+
+.barra {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 28px; border-bottom: 1px solid var(--borde); background: var(--panel);
+}
+.marca { font-size: 20px; font-weight: 700; color: var(--texto); text-decoration: none; letter-spacing: .5px; }
+.marca span { color: var(--acento); }
+.barra nav a { color: var(--tenue); text-decoration: none; margin-left: 20px; }
+.barra nav a:hover { color: var(--acento); }
+
+.aviso-patch {
+  background: #2a2113; border-bottom: 1px solid var(--borde);
+  padding: 9px 28px; font-size: 13px; color: #d8c9a8;
+}
+
+main { max-width: 1000px; margin: 0 auto; padding: 28px; }
+footer { max-width: 1000px; margin: 0 auto; padding: 20px 28px 60px; color: var(--tenue); font-size: 13px; }
+
+h1 { font-size: 30px; margin: 0 0 4px; }
+h1 small { color: var(--tenue); font-size: 18px; font-weight: 400; }
+h2 { font-size: 19px; margin: 0 0 14px; color: var(--acento); }
+h3 { font-size: 16px; margin: 0 0 6px; }
+.sub { color: var(--tenue); margin: 0 0 22px; }
+
+.tarjeta {
+  background: var(--panel); border: 1px solid var(--borde); border-radius: 10px;
+  padding: 20px 22px; margin-bottom: 18px;
+}
+.tarjeta.destacada { border-color: var(--acento); background: var(--panel-alto); }
+
+.advertencia {
+  background: #3a2a15; border-left: 3px solid var(--acento);
+  padding: 10px 14px; margin: 0 0 12px; font-size: 14px; border-radius: 0 6px 6px 0;
+}
+
+/* formulario */
+.formulario { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+.filtros { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; }
+.campo { display: flex; flex-direction: column; gap: 6px; }
+label { font-size: 13px; color: var(--tenue); }
+.opcional { opacity: .7; }
+select, input {
+  background: var(--fondo); color: var(--texto); border: 1px solid var(--borde);
+  border-radius: 6px; padding: 10px 12px; font-size: 15px; min-width: 190px;
+}
+button {
+  grid-column: 1 / -1; background: var(--acento); color: #1a1509; border: 0;
+  border-radius: 6px; padding: 12px 20px; font-size: 16px; font-weight: 600; cursor: pointer;
+}
+button:hover { filter: brightness(1.1); }
+.filtros button { grid-column: auto; padding: 10px 22px; }
+.boton {
+  display: inline-block; background: var(--acento); color: #1a1509; padding: 10px 16px;
+  border-radius: 6px; text-decoration: none; font-weight: 600; margin: 6px 0 14px;
+}
+
+/* evidencia: el número nunca va solo */
+.dato { font-weight: 700; font-variant-numeric: tabular-nums; }
+.muestra { color: var(--tenue); font-size: 13px; margin-left: 6px; font-variant-numeric: tabular-nums; }
+.fuente { color: var(--tenue); font-size: 13px; }
+.nota { display: block; color: var(--tenue); font-size: 13px; font-style: italic; }
+
+.componente { margin: 7px 0; font-size: 14px; padding-left: 4px; }
+.puntos { display: inline-block; min-width: 54px; font-variant-numeric: tabular-nums; font-weight: 700; color: var(--tenue); }
+.puntos.bien { color: var(--bien); }
+.puntos.mal { color: var(--mal); }
+.etiqueta { color: var(--texto); }
+.puntaje-total { margin: 16px 0 6px; color: var(--tenue); }
+
+.ranking { list-style: none; padding: 0; margin: 0; }
+.ranking li { padding: 12px 14px; border-radius: 8px; margin-bottom: 8px; background: var(--fondo); border: 1px solid transparent; }
+.ranking li.destacado { border-color: var(--acento); }
+.fila-civ { display: flex; justify-content: space-between; font-size: 17px; }
+.fila-civ .nombre { font-weight: 600; text-transform: capitalize; }
+.puntaje { font-variant-numeric: tabular-nums; color: var(--acento); font-weight: 700; }
+.alternativa { padding: 10px 0; border-top: 1px solid var(--borde); }
+
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { text-align: left; color: var(--tenue); font-weight: 500; padding: 7px 10px; }
+td { padding: 7px 10px; border-top: 1px solid var(--borde); vertical-align: top; }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+.num.bien { color: var(--bien); }
+.num.mal { color: var(--mal); }
+.rango { color: var(--tenue); font-size: 13px; }
+table.build .tiempo { color: var(--acento); font-variant-numeric: tabular-nums; }
+.ajuste { color: var(--acento); font-size: 13px; margin-top: 3px; }
+
+.calculo { padding: 12px 0; border-top: 1px solid var(--borde); }
+.calculo .resultado { color: var(--bien); font-weight: 600; margin: 4px 0; }
+.calculo pre {
+  background: var(--fondo); border: 1px solid var(--borde); border-radius: 6px;
+  padding: 10px 12px; overflow-x: auto; font-size: 13px; white-space: pre-wrap;
+}
+.supuestos { color: var(--tenue); font-size: 13px; margin: 6px 0; padding-left: 18px; }
+.senal { padding: 10px 0; border-top: 1px solid var(--borde); }
+.senal .motivo { color: var(--tenue); font-size: 14px; margin: 4px 0; }
+.volver { color: var(--tenue); }
+
+/* checklist: un paso por vez, grande */
+.checklist { max-width: 760px; margin: 0 auto; }
+.cl-cabecera { text-align: center; margin-bottom: 24px; }
+.cl-cabecera h1 { font-size: 22px; }
+.cl-progreso { height: 6px; background: var(--panel); border-radius: 3px; overflow: hidden; margin: 14px 0 6px; }
+.cl-barra { height: 100%; width: 0; background: var(--acento); transition: width .15s; }
+.cl-contador { color: var(--tenue); font-variant-numeric: tabular-nums; margin: 0; }
+
+.cl-paso { display: none; background: var(--panel); border: 1px solid var(--borde); border-radius: 12px; padding: 34px; }
+.cl-paso.activo { display: block; }
+.cl-meta { display: flex; gap: 22px; align-items: baseline; margin-bottom: 14px; }
+.cl-tiempo { font-size: 42px; font-weight: 700; color: var(--acento); font-variant-numeric: tabular-nums; }
+.cl-vills { font-size: 24px; font-weight: 600; }
+.cl-edad { color: var(--tenue); font-size: 17px; }
+.cl-reparto { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+.rec { background: var(--fondo); border: 1px solid var(--borde); border-radius: 20px; padding: 5px 14px; font-size: 15px; }
+.rec.comida { color: #e0a0a0; }
+.rec.madera { color: #a8c69a; }
+.rec.oro { color: var(--acento); }
+.rec.piedra { color: #b8b8b8; }
+.cl-nota { font-size: 21px; line-height: 1.5; margin: 0; }
+.cl-controles { display: flex; gap: 12px; margin-top: 22px; }
+.cl-controles button { flex: 1; background: var(--panel); color: var(--texto); border: 1px solid var(--borde); }
+.cl-controles button.primario { background: var(--acento); color: #1a1509; border-color: var(--acento); }
+.cl-ayuda { text-align: center; color: var(--tenue); font-size: 13px; margin-top: 14px; }
+
+@media (max-width: 720px) {
+  .formulario { grid-template-columns: 1fr; }
+  main { padding: 18px; }
+  .cl-tiempo { font-size: 34px; }
+  .cl-nota { font-size: 18px; }
+}
