@@ -101,6 +101,63 @@ def cmd_recomendar(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_civ(args: argparse.Namespace) -> int:
+    """Ficha de una civilización: lo mismo que muestra la web, en consola."""
+    from aoe2coach.config import elo_bucket
+    from aoe2coach.engine.civ import ficha
+
+    con = connect(read_only=True)
+    bucket = elo_bucket(args.elo) if args.elo else "all"
+    f = ficha(con, args.civ.lower(), bucket)
+    con.close()
+    if not f:
+        _p(f"No existe la civilización {args.civ!r}")
+        return 1
+
+    _p("")
+    _p(f"{f['nombre'].upper()} — {f['secciones']['tipo']}  (tramo {bucket})")
+    _p("")
+    for b in f["secciones"]["bonos"]:
+        _p(f"  · {b}")
+
+    for etiqueta, clave in (
+        ("Unidad única", "unidad_unica"),
+        ("Tecnologías únicas", "techs_unicas"),
+        ("Bonificación de equipo", "equipo"),
+    ):
+        if f["secciones"][clave]:
+            _p("")
+            _p(f"  {etiqueta}:")
+            for x in f["secciones"][clave]:
+                _p(f"    · {x}")
+
+    _p("")
+    _p(f"  Win rate general: {f['general'].texto()}")
+    if f["perfil_temporal"]["veredicto"]:
+        _p(f"  {f['perfil_temporal']['veredicto']}")
+
+    if f["mejores_mapas"]:
+        _p("")
+        _p("  Mejores mapas:")
+        for m in f["mejores_mapas"]:
+            _p(f"    {m['mapa']:<16} {m['win_rate'] * 100:5.1f}%   n={m['n']}")
+
+    if f["peores_matchups"]:
+        _p("")
+        _p("  Sufre contra:")
+        for m in f["peores_matchups"]:
+            _p(f"    {m['civ']:<16} {m['win_rate'] * 100:5.1f}%   n={m['n']}")
+
+    _p("")
+    _p("  Qué le falta:")
+    if not f["carencias"]:
+        _p("    nada importante: árbol tecnológico completo para 1v1")
+    for c in f["carencias"]:
+        _p(f"    · {c['que']} ({c['tipo']}) — {c['por_que']}")
+    _p("")
+    return 0
+
+
 def cmd_web(args: argparse.Namespace) -> int:
     """Levanta la web local. La app vive en localhost y no expone nada afuera."""
     import uvicorn
@@ -161,6 +218,11 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("--elo", type=int, required=True)
     r.add_argument("--rival", help="civilización del rival, si la conocés")
     r.set_defaults(func=cmd_recomendar)
+
+    c = sub.add_parser("civ", help="ficha de una civilización: bonos, fortalezas y carencias")
+    c.add_argument("civ")
+    c.add_argument("--elo", type=int, help="para ver los datos de tu tramo")
+    c.set_defaults(func=cmd_civ)
 
     w = sub.add_parser("web", help="levanta la web local")
     w.add_argument("--puerto", type=int, default=8000)

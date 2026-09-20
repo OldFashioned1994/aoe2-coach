@@ -160,3 +160,66 @@ def test_sin_civ_el_reporte_elige_una_y_arma_el_plan(con):
     assert r.civs_sugeridas
     assert r.contexto.civ == r.civs_sugeridas[0].civ, "el plan debe armarse con la civ elegida"
     assert r.build is not None
+
+
+def test_ficha_de_civ_trae_bonos_del_texto_oficial(con):
+    from aoe2coach.engine.civ import ficha
+
+    f = ficha(con, "bulgarians", "low")
+    assert f["nombre"]
+    assert f["secciones"]["bonos"], "los bonos salen del texto del juego"
+    assert f["secciones"]["unidad_unica"], "toda civ tiene al menos una unidad única"
+
+
+def test_ficha_no_repite_un_mapa_en_mejores_y_peores(con):
+    """Ver el mismo mapa arriba y abajo es ruido, no información."""
+    from aoe2coach.engine.civ import ficha
+
+    for civ in ("bulgarians", "franks", "mongols"):
+        f = ficha(con, civ, "low")
+        mejores = {m["mapa"] for m in f["mejores_mapas"]}
+        peores = {m["mapa"] for m in f["peores_mapas"]}
+        assert not (mejores & peores), f"{civ} repite mapas entre mejores y peores"
+        mej_mu = {m["civ"] for m in f["mejores_matchups"]}
+        peo_mu = {m["civ"] for m in f["peores_matchups"]}
+        assert not (mej_mu & peo_mu), f"{civ} repite matchups"
+
+
+def test_carencias_salen_del_arbol_oficial_no_de_la_memoria(con):
+    """Casos verificados contra `node_status` del árbol de cada civ.
+
+    Importa cómo se obtiene el dato: las listas `civs.<Civ>.Unit` de data.json NO sirven
+    (incluyen nodos que la civ no tiene habilitados). Si alguien vuelve a usarlas, estos tres
+    casos se rompen.
+    """
+    from aoe2coach.engine.civ import carencias
+
+    turcos = {c["que"] for c in carencias(con, "turks")}
+    assert "Alabardero" in turcos, "los Turcos no tienen Alabardero"
+
+    francos = {c["que"] for c in carencias(con, "franks")}
+    assert "Linaje" in francos, "los Francos no tienen Linaje"
+
+    britones = {c["que"] for c in carencias(con, "britons")}
+    assert "Arcabucero" in britones, "los Britones no tienen pólvora"
+
+
+def test_ninguna_civ_carece_de_todo(con):
+    """Un bug de join daría 'le falta todo' en masa: esto lo caza."""
+    from aoe2coach.engine.civ import carencias, claves
+
+    total = len(claves()["unidades"]) + len(claves()["tecnologias"])
+    civs = [r[0] for r in con.execute("SELECT civ FROM ref_civ").fetchall()]
+    for c in civs:
+        assert len(carencias(con, c)) < total, f"{c} aparece sin nada: revisar el join"
+
+
+def test_toda_civ_del_juego_tiene_ficha(con):
+    """Incluidas las que no tienen estadística: los bonos están igual."""
+    from aoe2coach.engine.civ import ficha
+
+    civs = [r[0] for r in con.execute("SELECT civ FROM ref_civ").fetchall()]
+    assert len(civs) >= 50
+    for c in civs:
+        f = ficha(con, c, "low")
+        assert f and f["secciones"]["bonos"], f"{c} quedó sin bonos"

@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block titulo %}{{ f.nombre }} · AoE2 Coach{% endblock %}
+{% macro tabla_filas(filas, campo) %}
+  <table class="datos">
+    {% for x in filas %}
+    <tr>
+      <td>{{ x[campo] }}</td>
+      <td class="num {% if x.win_rate > 0.52 %}bien{% elif x.win_rate < 0.48 %}mal{% endif %}">
+        {{ (x.win_rate * 100) | round(1) }}%
+      </td>
+      <td class="num rango">{{ (x.ci[0] * 100) | round(1) }} – {{ (x.ci[1] * 100) | round(1) }}</td>
+      <td class="num muestra">n={{ "{:,}".format(x.n).replace(",", ".") }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endmacro %}
+{% block contenido %}
+
+<h1>{{ f.nombre }}</h1>
+<p class="sub">{{ f.secciones.tipo }} · datos del tramo <strong>{{ f.bucket }}</strong></p>
+
+<div class="filtros-civ">
+  {% for b in ['all', 'low', 'med_low', 'medium', 'med_high', 'high'] %}
+    <a class="chip {% if b == f.bucket %}activo{% endif %}" href="/civ/{{ f.civ }}?bucket={{ b }}">{{ b }}</a>
+  {% endfor %}
+</div>
+
+<section class="tarjeta destacada">
+  <h2>Bonos</h2>
+  <ul class="bonos">
+    {% for b in f.secciones.bonos %}<li>{{ b }}</li>{% endfor %}
+  </ul>
+
+  {% if f.secciones.unidad_unica %}
+  <h3>Unidad única</h3>
+  <ul class="bonos">{% for u in f.secciones.unidad_unica %}<li>{{ u }}</li>{% endfor %}</ul>
+  {% endif %}
+
+  {% if f.secciones.techs_unicas %}
+  <h3>Tecnologías únicas</h3>
+  <ul class="bonos">{% for t in f.secciones.techs_unicas %}<li>{{ t }}</li>{% endfor %}</ul>
+  {% endif %}
+
+  {% if f.secciones.equipo %}
+  <h3>Bonificación de equipo</h3>
+  <ul class="bonos">{% for e in f.secciones.equipo %}<li>{{ e }}</li>{% endfor %}</ul>
+  {% endif %}
+  <p class="fuente">Texto del juego, tal cual. No está resumido ni interpretado.</p>
+</section>
+
+<section class="tarjeta">
+  <h2>Cómo rinde</h2>
+  <p>
+    Win rate general: <span class="dato">{{ f.general.pct }}</span>
+    {% if f.general.n %}<span class="muestra">n={{ "{:,}".format(f.general.n).replace(",", ".") }}</span>{% endif %}
+  </p>
+  {% if f.perfil_temporal.veredicto %}
+    <p class="veredicto">{{ f.perfil_temporal.veredicto }}</p>
+    <table class="datos">
+      {% for tramo, e in f.perfil_temporal.tramos.items() %}
+        {% if e.valor is not none %}
+        <tr>
+          <td>{{ etiquetas.get(tramo, tramo) }}</td>
+          <td class="num {% if e.valor > 0.52 %}bien{% elif e.valor < 0.48 %}mal{% endif %}">{{ (e.valor * 100) | round(1) }}%</td>
+          <td class="num muestra">n={{ "{:,}".format(e.n).replace(",", ".") }}</td>
+        </tr>
+        {% endif %}
+      {% endfor %}
+    </table>
+  {% else %}
+    <p class="fuente">Sin muestra suficiente para decir si es de partidas cortas o largas.</p>
+  {% endif %}
+</section>
+
+<div class="dos-columnas">
+  <section class="tarjeta">
+    <h2>Sus mejores mapas</h2>
+    {% if f.mejores_mapas %}{{ tabla_filas(f.mejores_mapas, 'mapa') }}
+    {% else %}<p class="fuente">Sin mapas con muestra suficiente en este tramo.</p>{% endif %}
+    {% if f.peores_mapas %}
+      <h3>Donde menos rinde</h3>
+      {{ tabla_filas(f.peores_mapas, 'mapa') }}
+    {% endif %}
+  </section>
+
+  <section class="tarjeta">
+    <h2>Contra quién gana</h2>
+    {% if f.mejores_matchups %}{{ tabla_filas(f.mejores_matchups, 'civ') }}
+    {% else %}<p class="fuente">Sin matchups con muestra suficiente.</p>{% endif %}
+    {% if f.peores_matchups %}
+      <h3>Y contra quién sufre</h3>
+      {{ tabla_filas(f.peores_matchups, 'civ') }}
+    {% endif %}
+  </section>
+</div>
+
+<section class="tarjeta">
+  <h2>Qué le falta</h2>
+  {% if f.carencias %}
+    <p class="sub">De lo que define un 1v1. Comparación literal contra su árbol tecnológico.</p>
+    <ul class="carencias">
+      {% for c in f.carencias %}
+        <li><strong>{{ c.que }}</strong> <span class="tipo">({{ c.tipo }})</span> — {{ c.por_que }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Tiene todo lo importante: árbol tecnológico completo para 1v1.</p>
+  {% endif %}
+</section>
+
+<p><a class="volver" href="/datos">← volver a explorar datos</a></p>
+{% endblock %}

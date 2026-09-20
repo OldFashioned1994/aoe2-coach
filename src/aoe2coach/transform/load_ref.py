@@ -38,6 +38,17 @@ def load_techtree(con: duckdb.DuckDBPyConnection, *, force: bool = False) -> dic
             ("id", "internal_name", "nombre", "food", "wood", "gold", "stone", "hp",
              "build_time"),
         ),
+        "ref_civ_tech_tree": _cargar(
+            con, "ref_civ_tech_tree",
+            (
+                fila
+                for civ_en in data["civs"]
+                for fila in techtree.rows_civ_tech_tree(
+                    civ_en, techtree.download_tree(civ_en, force=force)
+                )
+            ),
+            ("civ", "tipo", "id", "nombre_nodo", "disponible"),
+        ),
         "ref_civ": _cargar(
             con, "ref_civ", techtree.rows_civs(data, strings, strings_en),
             ("civ", "nombre_en", "nombre_es", "era", "bonos_texto", "bonos_texto_en",

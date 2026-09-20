@@ -50,6 +50,9 @@ PYTHONPATH=src .venv/Scripts/python.exe -m aoe2coach.cli ingest
 # sólo una fuente: aoestats | pulse | techtree | dat | builds | dumps
 PYTHONPATH=src .venv/Scripts/python.exe -m aoe2coach.cli ingest --solo pulse
 
+# ficha de una civilización: bonos, fortalezas medidas y qué le falta
+PYTHONPATH=src .venv/Scripts/python.exe -m aoe2coach.cli civ turks --elo 500
+
 # estado de la base y última ingesta por fuente
 PYTHONPATH=src .venv/Scripts/python.exe -m aoe2coach.cli info
 
@@ -62,6 +65,16 @@ PYTHONPATH=src .venv/Scripts/python.exe -m aoe2coach.cli check
 
 Todo lo descargado queda cacheado en `data/raw/` con un sidecar `.meta.json` (URL, fecha, MD5),
 así que después de la primera corrida la app funciona sin internet.
+
+## Fichas de civilización
+
+Cada civ tiene su página (`/civ/turks`) con tres capas bien separadas:
+
+1. **Bonos**: el texto del juego, tal cual, con unidad única, tecnologías únicas y bono de equipo.
+2. **Fortalezas medidas**: si rinde en partidas cortas o largas, sus mejores y peores mapas y
+   contra qué civs gana o sufre — todo con su n y su intervalo.
+3. **Qué le falta**: comparación literal contra el árbol oficial de la civ. Los Turcos no tienen
+   Alabardero, los Francos no tienen Linaje, los Britones no tienen pólvora.
 
 ## Cómo decide
 

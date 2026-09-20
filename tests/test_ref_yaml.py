@@ -121,3 +121,24 @@ def test_favorece_referencia_estrategias_reales(bonos, estrategias):
         if set(b.get("favorece", [])) - ids
     ]
     assert not problemas, problemas
+
+
+def test_las_tecnologias_clave_existen_en_el_juego(con):
+    """Igual que con los bonos: si invento un nombre interno, el test lo caza."""
+    import yaml as _yaml
+
+    cfg = _yaml.safe_load((REF / "tecnologias_clave.yaml").read_text(encoding="utf-8"))
+    unidades = {r[0] for r in con.execute("SELECT internal_name FROM ref_unit").fetchall()}
+    techs = {r[0] for r in con.execute("SELECT internal_name FROM ref_tech").fetchall()}
+
+    faltan = [u["interno"] for u in cfg["unidades"] if u["interno"] not in unidades]
+    faltan += [t["interno"] for t in cfg["tecnologias"] if t["interno"] not in techs]
+    assert not faltan, f"nombres internos que no existen en el juego: {faltan}"
+
+
+def test_cada_clave_explica_que_se_pierde(con):
+    import yaml as _yaml
+
+    cfg = _yaml.safe_load((REF / "tecnologias_clave.yaml").read_text(encoding="utf-8"))
+    for item in cfg["unidades"] + cfg["tecnologias"]:
+        assert item.get("por_que"), f"{item['interno']} no dice qué se pierde sin eso"

@@ -539,11 +539,14 @@ def sugerir_civs(
                     evidencia=e_mu,
                 ))
 
+        # Los bonos salen del texto del juego (las 53 civs), no del YAML modelado (16).
+        from aoe2coach.engine.civ import resumen_corto
+
         salida.append(CivSugerida(
             civ=civ,
             score=round(sum(c.puntos for c in componentes), 2),
             componentes=componentes,
-            bonos=[b["texto_en"] for b in bonos_civ],
+            bonos=resumen_corto(con, civ),
         ))
 
     return sorted(salida, key=lambda x: x.score, reverse=True)[:top]

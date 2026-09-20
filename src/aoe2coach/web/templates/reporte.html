@@ -8,7 +8,7 @@
 {% endmacro %}
 {% block contenido %}
 
-<h1>{{ r.contexto.civ or '—' }}{% if r.contexto.civ_rival %} <small>contra</small> {{ r.contexto.civ_rival }}{% endif %}</h1>
+<h1>{% if r.contexto.civ %}<a class="titulo-civ" href="/civ/{{ r.contexto.civ }}?bucket={{ r.elo_bucket }}">{{ r.contexto.civ }}</a>{% else %}—{% endif %}{% if r.contexto.civ_rival %} <small>contra</small> {{ r.contexto.civ_rival }}{% endif %}</h1>
 <p class="sub">{{ r.contexto.mapa }} · Elo {{ r.contexto.elo }} (tramo {{ r.elo_bucket }})</p>
 
 {% for a in r.advertencias %}<p class="advertencia">{{ a }}</p>{% endfor %}
@@ -32,7 +32,11 @@
   <ol class="ranking">
     {% for c in r.civs_sugeridas %}
     <li class="{% if loop.first %}destacado{% endif %}">
-      <div class="fila-civ"><span class="nombre">{{ c.civ }}</span><span class="puntaje">{{ "%+.2f"|format(c.score) }}</span></div>
+      <div class="fila-civ">
+        <a class="nombre" href="/civ/{{ c.civ }}?bucket={{ r.elo_bucket }}">{{ c.civ }}</a>
+        <span class="puntaje">{{ "%+.2f"|format(c.score) }}</span>
+      </div>
+      {% if c.bonos %}<ul class="bonos-chicos">{% for b in c.bonos %}<li>{{ b }}</li>{% endfor %}</ul>{% endif %}
       {% for comp in c.componentes %}
         <div class="componente">
           {% if comp.puntos %}<span class="puntos">{{ "%+.2f"|format(comp.puntos) }}</span>{% endif %}

@@ -39,6 +39,9 @@ TECHTREE_STRINGS = (
     "https://raw.githubusercontent.com/SiegeEngineers/aoe2techtree/master/data/locales/"
     "{lang}/strings.json"
 )
+TECHTREE_TREE = (
+    "https://raw.githubusercontent.com/SiegeEngineers/aoe2techtree/master/data/trees/{civ}.json"
+)
 DATFILE_FULL = "https://raw.githubusercontent.com/hszemi/aoe2dat/master/data/full.json.xz"
 
 RTSBUILDS_TREE = (

@@ -137,6 +137,11 @@ CREATE TABLE IF NOT EXISTS ref_civ (
     n_units BIGINT, n_techs BIGINT, n_buildings BIGINT
 );
 
+CREATE TABLE IF NOT EXISTS ref_civ_tech_tree (
+    civ VARCHAR NOT NULL, tipo VARCHAR NOT NULL, id BIGINT NOT NULL,
+    nombre_nodo VARCHAR, disponible BOOLEAN NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS ref_gather_rate (
     tarea VARCHAR PRIMARY KEY, unidad_interna VARCHAR, recurso VARCHAR,
     work_rate DOUBLE, speed DOUBLE, capacidad DOUBLE, fuente VARCHAR

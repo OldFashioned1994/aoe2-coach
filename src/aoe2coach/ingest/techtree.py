@@ -13,7 +13,7 @@ import html
 import re
 from typing import Iterator
 
-from aoe2coach.config import TECHTREE_DATA, TECHTREE_STRINGS
+from aoe2coach.config import TECHTREE_DATA, TECHTREE_STRINGS, TECHTREE_TREE
 from aoe2coach.ingest.http import fetch_json, meta_of
 
 ARCHIVO_DATA = "techtree_data.json"
@@ -95,6 +95,37 @@ def rows_techs(data: dict, strings: dict, strings_en: dict | None = None) -> Ite
             "stone": _costo(t.get("Cost"), "Stone"),
             "research_time": t.get("ResearchTime"),
             "repeatable": bool(t.get("Repeatable", False)),
+        }
+
+
+#: En los árboles por civ, cada nodo trae su estado. Sólo uno significa "no lo tenés".
+_NO_DISPONIBLE = "NotAvailable"
+
+
+def download_tree(civ_en: str, *, force: bool = False) -> dict:
+    """Árbol de una civ. OJO: las listas `civs.<Civ>.Unit` de data.json NO sirven para esto.
+
+    Ahí figuran nodos que la civ no tiene (en Godos aparecen unidades marcadas luego como
+    NotAvailable), porque describen qué se dibuja en el árbol, no qué está habilitado. El dato
+    real es `node_status` de estos archivos.
+    """
+    return fetch_json(
+        TECHTREE_TREE.format(civ=civ_en.upper()), f"techtree_tree_{civ_en.lower()}.json",
+        force=force,
+    )
+
+
+def rows_civ_tech_tree(civ_en: str, arbol: dict) -> Iterator[dict]:
+    """Un nodo por fila, con si la civ lo tiene o no."""
+    for nodo in arbol.get("units_techs", []):
+        if nodo.get("node_id") is None:
+            continue
+        yield {
+            "civ": civ_en.lower(),
+            "tipo": (nodo.get("node_type") or "").lower(),
+            "id": int(nodo["node_id"]),
+            "nombre_nodo": nodo.get("name"),
+            "disponible": nodo.get("node_status") != _NO_DISPONIBLE,
         }
 
 

@@ -1,0 +1,77 @@
+# Las unidades y tecnologías que definen si una civ puede pelear un 1v1.
+#
+# El tech tree tiene 245 unidades y 194 tecnologías, y a casi ninguna civ le faltan sólo dos o
+# tres: decir "le faltan 87 unidades" sería ruido. Esta es una lista corta y deliberada de lo
+# que de verdad cambia una partida en Random Map. La selección es criterio nuestro; los nombres
+# internos son del juego y un test verifica que existan.
+#
+# `por_que` es lo que se muestra cuando la civ NO lo tiene: explica qué pierde.
+
+version: 1
+
+unidades:
+  - interno: PALDN
+    nombre: Paladín
+    por_que: su caballería se queda en Caballero Montado y pierde contra la que sí mejora
+  - interno: ACOAR
+    nombre: Arbalestero
+    por_que: sus arqueros se quedan en Ballestero
+  - interno: HXBOW
+    nombre: Escaramuzador de Élite
+    por_que: peor respuesta barata contra arqueros
+  - interno: HLBDM
+    nombre: Alabardero
+    por_que: su línea de lanceros no llega al counter definitivo de caballería
+  - interno: HUSSAR
+    nombre: Húsar
+    por_que: sin caballería ligera de basura para el late game
+  - interno: CVLRY
+    nombre: Camello
+    por_que: sin camellos para frenar caballería pesada
+  - interno: BCANN
+    nombre: Bombarda
+    por_que: le falta artillería de asedio a distancia
+  - interno: HCANR
+    nombre: Arcabucero
+    por_que: sin infantería de pólvora
+
+tecnologias:
+  - interno: Bloodlines
+    nombre: Linaje
+    por_que: su caballería tiene 20 PR menos que la del rival, en toda la línea
+  - interno: Husbandry
+    nombre: Cría de caballos
+    por_que: su caballería se mueve más lento, que es media partida en el hostigamiento
+  - interno: Thumb Ring
+    nombre: Anillo de arquero
+    por_que: sus arqueros disparan más lento y con menos precisión
+  - interno: Bracer
+    nombre: Brazal
+    por_que: le falta el último alcance y ataque de arquería
+  - interno: Ring Archer Armor
+    nombre: Armadura de anillas
+    por_que: sus arqueros aguantan menos
+  - interno: Plate Barding Armor
+    nombre: Barda de placas
+    por_que: su caballería queda blanda en Imperial
+  - interno: Plate Mail Armor
+    nombre: Cota de placas
+    por_que: su infantería queda blanda en Imperial
+  - interno: Crop rotation
+    nombre: Rotación de cultivos
+    por_que: sus granjas rinden menos en partidas largas
+  - interno: Two Man Saw
+    nombre: Sierra de dos hombres
+    por_que: menos madera por aldeano en el late game
+  - interno: Stone Shaft Mining
+    nombre: Minería de piedra en pozo
+    por_que: menos piedra para castillos y torres
+  - interno: Siege Engineers
+    nombre: Ingenieros de asedio
+    por_que: su asedio pega menos y llega menos lejos
+  - interno: Chemistry
+    nombre: Química
+    por_que: sin pólvora ni el último ataque de proyectiles
+  - interno: Conscription
+    nombre: Conscripción
+    por_que: produce unidades militares más lento en Imperial

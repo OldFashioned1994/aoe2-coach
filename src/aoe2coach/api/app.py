@@ -25,6 +25,7 @@ from aoe2coach.config import (
     elo_bucket,
 )
 from aoe2coach.db import connect
+from aoe2coach.engine import civ as civ_mod
 from aoe2coach.engine.modelos import Contexto
 from aoe2coach.engine.motor import recomendar
 
@@ -125,6 +126,20 @@ def checklist(request: Request, build_id: str, civ: str | None = None):
             "civ": civ,
         }
         return plantillas.TemplateResponse(request, "checklist.html", datos)
+    finally:
+        con.close()
+
+
+@app.get("/civ/{nombre}", response_class=HTMLResponse)
+def ficha_civ(request: Request, nombre: str, bucket: str = "all"):
+    """Bonos, fortalezas medidas y carencias del árbol tecnológico."""
+    con = db()
+    try:
+        f = civ_mod.ficha(con, nombre.lower(), bucket)
+        if not f:
+            return HTMLResponse("<h1>No existe esa civilización</h1>", status_code=404)
+        datos = _contexto_base(request) | {"f": f, "etiquetas": civ_mod.DURACION_ETIQUETAS}
+        return plantillas.TemplateResponse(request, "ficha.html", datos)
     finally:
         con.close()
 

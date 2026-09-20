@@ -150,3 +150,28 @@ table.build .tiempo { color: var(--acento); font-variant-numeric: tabular-nums; 
   .cl-tiempo { font-size: 34px; }
   .cl-nota { font-size: 18px; }
 }
+
+/* ficha de civilizacion */
+.filtros-civ { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+.chip {
+  background: var(--panel); border: 1px solid var(--borde); color: var(--tenue);
+  border-radius: 20px; padding: 5px 14px; text-decoration: none; font-size: 13px;
+}
+.chip:hover { color: var(--texto); }
+.chip.activo { background: var(--acento); color: #1a1509; border-color: var(--acento); font-weight: 600; }
+
+.bonos { margin: 0 0 10px; padding-left: 20px; }
+.bonos li { margin: 5px 0; }
+.bonos-chicos { margin: 6px 0 0; padding-left: 18px; color: var(--tenue); font-size: 13px; }
+.bonos-chicos li { margin: 2px 0; }
+.veredicto { color: var(--acento); margin: 6px 0 14px; }
+.carencias { margin: 0; padding-left: 20px; }
+.carencias li { margin: 7px 0; }
+.carencias .tipo { color: var(--tenue); font-size: 13px; }
+.dos-columnas { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.fila-civ .nombre, .titulo-civ { color: var(--texto); text-decoration: none; border-bottom: 1px dotted var(--borde); }
+.fila-civ .nombre:hover, .titulo-civ:hover { color: var(--acento); }
+table.datos a { color: var(--texto); text-decoration: none; border-bottom: 1px dotted var(--borde); }
+table.datos a:hover { color: var(--acento); }
+
+@media (max-width: 720px) { .dos-columnas { grid-template-columns: 1fr; } }

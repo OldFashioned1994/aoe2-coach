@@ -107,6 +107,24 @@ n=40 no vale nada".
 - Edge headless dejó de escribir capturas después de la primera; Playwright (en
   `herramientas/playwright`) sí funciona y además permite simular las teclas de la checklist.
 
+### Fichas de civilización (20-sep-2026)
+
+Pedido de Nico: "faltan bonos y fortalezas de cada civilización, es relevante visualizar eso".
+Se agregó `/civ/<civ>` y el comando `cli civ`, con bonos (texto del juego), fortalezas medidas
+y carencias del árbol.
+
+**El hallazgo del día**: las listas `civs.<Civ>.Unit` / `.Tech` de `data.json` **no significan
+"lo que la civ tiene"**. Incluyen nodos que la civ no tiene habilitados, porque describen qué se
+dibuja en el árbol. Con ellas, la primera versión decía que los Godos tienen Arbalestero y que a
+los Turcos no les falta nada. El dato correcto es `node_status` de `data/trees/<CIV>.json`:
+`NotAvailable` es lo único que significa "no lo tenés". Lo destapó un test que yo mismo había
+escrito mal —desde la memoria del juego en vez de desde la fuente—, y al verificarlo resultó que
+el equivocado era el test en un caso (los Godos sí tienen Bombarda y Paladín hoy) y la
+implementación en el resto.
+
+También: en las tablas de "mejores y peores" mapas, con pocos mapas con muestra el mismo mapa
+salía arriba y abajo. Ahora, si hay pocos, se muestra una lista sola.
+
 ## Abiertas — necesito tu respuesta
 
 1. **El nombre**: `aoecoach.com` ya existe con la misma promesa. ¿Lo dejamos o lo cambiamos?
