@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block contenido %}
+<h1>¿Qué juego?</h1>
+<p class="sub">Elegí el contexto y te digo con qué ir, por qué, y el build paso a paso.</p>
+
+<form class="tarjeta formulario" id="form">
+  <div class="campo">
+    <label for="mapa">Mapa</label>
+    <select id="mapa">
+      {% for m in mapas %}<option value="{{ m }}">{{ m }}</option>{% endfor %}
+    </select>
+  </div>
+
+  <div class="campo">
+    <label for="bucket">Tu nivel</label>
+    <select id="bucket">
+      {% for b in buckets %}
+        <option value="{{ b }}" {% if b == 'low' %}selected{% endif %}>
+          {{ b }}{% if b != 'all' %} (~{{ elo_por_bucket[b] }} de Elo){% endif %}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="campo">
+    <label for="civ">Tu civilización</label>
+    <select id="civ">
+      <option value="recomendada">— que me la recomiende —</option>
+      {% for c in civs %}<option value="{{ c }}">{{ c }}</option>{% endfor %}
+    </select>
+  </div>
+
+  <div class="campo">
+    <label>&nbsp;</label>
+    <a class="boton" id="ir-ficha" href="#">Ver la ficha de esa civ →</a>
+  </div>
+
+  <button type="submit">Armar el plan</button>
+</form>
+
+<section class="tarjeta">
+  <h2>Explorar por tu cuenta</h2>
+  <p class="sub">Win rates por civilización y por apertura, en cualquier mapa y tramo de Elo.</p>
+  <p>
+    {% for m in todos_los_mapas[:10] %}
+      <a class="chip" href="{{ u('datos', mapa=m, bucket='low') }}">{{ m }}</a>
+    {% endfor %}
+  </p>
+</section>
+
+<section class="tarjeta">
+  <h2>Qué hay acá y qué no</h2>
+  <p>
+    Esta es la versión publicada: todo viene pregenerado con el mismo motor y los mismos datos
+    que la app local. Lo único que no está es el <strong>matchup contra una civ rival concreta</strong>,
+    porque son miles de combinaciones por mapa y tramo. Para eso, la versión local.
+  </p>
+  <p class="fuente">
+    Cada número que vas a ver lleva su fuente y su tamaño de muestra. Lo que no se midió, se dice.
+  </p>
+</section>
+
+<script>
+  // El sitio es estático: el formulario no consulta un servidor, arma el nombre del archivo.
+  const archivoReporte = () =>
+    `reporte-${document.getElementById('mapa').value}-${document.getElementById('bucket').value}-${document.getElementById('civ').value}.html`;
+
+  document.getElementById('form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    location.href = archivoReporte();
+  });
+
+  const actualizarFicha = () => {
+    const civ = document.getElementById('civ').value;
+    const bucket = document.getElementById('bucket').value;
+    const enlace = document.getElementById('ir-ficha');
+    if (civ === 'recomendada') {
+      enlace.style.opacity = .4;
+      enlace.removeAttribute('href');
+    } else {
+      enlace.style.opacity = 1;
+      enlace.href = `civ-${civ}-${bucket}.html`;
+    }
+  };
+  document.getElementById('civ').addEventListener('change', actualizarFicha);
+  document.getElementById('bucket').addEventListener('change', actualizarFicha);
+  actualizarFicha();
+</script>
+{% endblock %}

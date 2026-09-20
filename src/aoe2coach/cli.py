@@ -168,6 +168,27 @@ def cmd_web(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_publicar(args: argparse.Namespace) -> int:
+    """Genera el sitio estático que se sube a GitHub Pages."""
+    from pathlib import Path
+
+    from aoe2coach.web.estatico import generar
+
+    destino = Path(args.destino)
+    con = connect(read_only=True)
+    _p(f"Generando el sitio en {destino}/ …")
+    cuenta = generar(con, destino)
+    con.close()
+
+    total = sum(cuenta.values()) + 1
+    for k, v in cuenta.items():
+        _p(f"  {k}: {v}")
+    peso = sum(f.stat().st_size for f in destino.rglob("*") if f.is_file())
+    _p("")
+    _p(f"{total} páginas, {peso / 1024 / 1024:.1f} MB en {destino}/")
+    return 0
+
+
 def cmd_info(_: argparse.Namespace) -> int:
     con = connect(read_only=True)
     _p(f"Datos: patch {DATA_PATCH} ({DATA_PATCH_DATE}), partidas hasta {DATA_CUTOFF}")
@@ -228,6 +249,10 @@ def main(argv: list[str] | None = None) -> int:
     w.add_argument("--puerto", type=int, default=8000)
     w.add_argument("--reload", action="store_true", help="recarga al editar código")
     w.set_defaults(func=cmd_web)
+
+    pub = sub.add_parser("publicar", help="genera el sitio estático para GitHub Pages")
+    pub.add_argument("--destino", default="site")
+    pub.set_defaults(func=cmd_publicar)
 
     sub.add_parser("info", help="estado de la base").set_defaults(func=cmd_info)
     sub.add_parser("check", help="controles de calidad de datos").set_defaults(func=cmd_check)

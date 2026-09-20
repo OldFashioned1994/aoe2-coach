@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block titulo %}AoE2 Coach{% endblock %}</title>
-  <link rel="stylesheet" href="/static/estilo.css">
+  <link rel="stylesheet" href="{{ u('estilo') }}">
 </head>
 <body>
   <header class="barra">
-    <a class="marca" href="/">AoE2 <span>Coach</span></a>
+    <a class="marca" href="{{ u('inicio') }}">AoE2 <span>Coach</span></a>
     <nav>
-      <a href="/">Recomendación</a>
-      <a href="/datos">Explorar datos</a>
+      <a href="{{ u('inicio') }}">Recomendación</a>
+      <a href="{{ u('datos') }}">Explorar datos</a>
     </nav>
   </header>
 

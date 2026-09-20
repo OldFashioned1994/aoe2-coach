@@ -55,7 +55,7 @@
     <thead><tr><th>civ</th><th>win rate</th><th>intervalo</th><th>partidas</th><th>popularidad</th></tr></thead>
     <tbody>
     {% for f in filas %}
-      <tr><td><a href="/civ/{{ f[0] }}?bucket={{ bucket }}">{{ f[0] }}</a></td>
+      <tr><td><a href="{{ u('civ', civ=f[0], bucket=bucket) }}">{{ f[0] }}</a></td>
           <td class="num {% if f[2] > 0.52 %}bien{% elif f[2] < 0.48 %}mal{% endif %}">{{ (f[2] * 100) | round(1) }}%</td>
           <td class="num rango">{{ (f[3] * 100) | round(1) }} – {{ (f[4] * 100) | round(1) }}</td>
           <td class="num">{{ "{:,}".format(f[1]).replace(",", ".") }}</td>

@@ -66,6 +66,17 @@ PYTHONPATH=src .venv/Scripts/python.exe -m aoe2coach.cli check
 Todo lo descargado queda cacheado en `data/raw/` con un sidecar `.meta.json` (URL, fecha, MD5),
 así que después de la primera corrida la app funciona sin internet.
 
+## Versión publicada
+
+`cli publicar` genera en `site/` una copia estática de toda la app (1.374 páginas, 12 MB) con
+el mismo motor, las mismas plantillas y los mismos datos: no hay una segunda implementación en
+JavaScript que pueda divergir. Lo único que no entra es el matchup contra una civ rival
+concreta — son miles de combinaciones por mapa y tramo.
+
+```bash
+PYTHONPATH=src .venv/Scripts/python.exe -m aoe2coach.cli publicar
+```
+
 ## Fichas de civilización
 
 Cada civ tiene su página (`/civ/turks`) con tres capas bien separadas:

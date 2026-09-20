@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Explorar datos · AoE2 Coach</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <header class="barra">
+    <a class="marca" href="index.html">AoE2 <span>Coach</span></a>
+    <nav>
+      <a href="index.html">Recomendación</a>
+      <a href="datos-all-all.html">Explorar datos</a>
+    </nav>
+  </header>
+
+  <div class="aviso-patch">
+    Datos del patch <strong>162286</strong> (2025-12-02), partidas hasta el
+    2026-02-07 · el juego corre el patch <strong>177723</strong> (2026-06-02)
+  </div>
+
+  <main>
+<h1>Explorar los datos</h1>
+<p class="sub">Los mismos números que usa el motor, para mirarlos por tu cuenta.</p>
+
+<form class="tarjeta filtros" action="/datos" method="get">
+  <div class="campo">
+    <label for="mapa">Mapa</label>
+    <select name="mapa" id="mapa">
+      <option value="all" >todos</option>
+      <option value="arabia" >arabia</option><option value="arena" >arena</option><option value="megarandom" >megarandom</option><option value="glade" >glade</option><option value="lowland" >lowland</option><option value="haboob" >haboob</option><option value="graveyards" >graveyards</option><option value="socotra" >socotra</option><option value="shrubland" >shrubland</option><option value="valley" >valley</option><option value="scandanavia" >scandanavia</option><option value="paradise_island" >paradise_island</option><option value="passage" >passage</option><option value="african_clearing" >african_clearing</option><option value="yucatan" >yucatan</option><option value="golden_swamp" >golden_swamp</option><option value="fortress" >fortress</option><option value="steppe" >steppe</option><option value="fortified_clearing" selected>fortified_clearing</option><option value="canals" >canals</option><option value="coastal" >coastal</option>
+    </select>
+  </div>
+  <div class="campo">
+    <label for="bucket">Tramo de Elo</label>
+    <select name="bucket" id="bucket">
+      
+      <option value="all" >all</option>
+      
+      <option value="low" >low</option>
+      
+      <option value="med_low" >med_low</option>
+      
+      <option value="medium" >medium</option>
+      
+      <option value="med_high" >med_high</option>
+      
+      <option value="high" selected>high</option>
+      
+    </select>
+  </div>
+  <div class="campo">
+    <label for="orden">Ordenar por</label>
+    <select name="orden" id="orden">
+      <option value="win_rate" selected>win rate</option>
+      <option value="n" >partidas</option>
+      <option value="play_rate" >popularidad</option>
+    </select>
+  </div>
+  <button type="submit">Ver</button>
+</form>
+
+
+
+<section class="tarjeta">
+  <h2>Civilizaciones</h2>
+  <p class="advertencia">No hay datos para ese corte.</p>
+  <table class="datos">
+    <thead><tr><th>civ</th><th>win rate</th><th>intervalo</th><th>partidas</th><th>popularidad</th></tr></thead>
+    <tbody>
+    
+    </tbody>
+  </table>
+</section>
+</main>
+
+  <footer>
+    Cada número lleva su fuente y su tamaño de muestra. Lo que no se midió, se dice.
+  </footer>
+</body>
+</html>

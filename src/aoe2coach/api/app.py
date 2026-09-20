@@ -27,6 +27,7 @@ from aoe2coach.config import (
 from aoe2coach.db import connect
 from aoe2coach.engine import civ as civ_mod
 from aoe2coach.engine.modelos import Contexto
+from aoe2coach.web.enlaces import url_servidor
 from aoe2coach.engine.motor import recomendar
 
 WEB = Path(__file__).resolve().parent.parent / "web"
@@ -34,6 +35,8 @@ WEB = Path(__file__).resolve().parent.parent / "web"
 app = FastAPI(title="AoE2 Coach", docs_url="/api/docs")
 app.mount("/static", StaticFiles(directory=WEB / "static"), name="static")
 plantillas = Jinja2Templates(directory=str(WEB / "templates"))
+# Las plantillas se comparten con el sitio estático: `u()` resuelve cada enlace según el modo.
+plantillas.env.globals["u"] = url_servidor
 
 
 def db() -> duckdb.DuckDBPyConnection:

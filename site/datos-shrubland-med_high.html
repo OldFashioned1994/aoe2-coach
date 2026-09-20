@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Explorar datos · AoE2 Coach</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <header class="barra">
+    <a class="marca" href="index.html">AoE2 <span>Coach</span></a>
+    <nav>
+      <a href="index.html">Recomendación</a>
+      <a href="datos-all-all.html">Explorar datos</a>
+    </nav>
+  </header>
+
+  <div class="aviso-patch">
+    Datos del patch <strong>162286</strong> (2025-12-02), partidas hasta el
+    2026-02-07 · el juego corre el patch <strong>177723</strong> (2026-06-02)
+  </div>
+
+  <main>
+<h1>Explorar los datos</h1>
+<p class="sub">Los mismos números que usa el motor, para mirarlos por tu cuenta.</p>
+
+<form class="tarjeta filtros" action="/datos" method="get">
+  <div class="campo">
+    <label for="mapa">Mapa</label>
+    <select name="mapa" id="mapa">
+      <option value="all" >todos</option>
+      <option value="arabia" >arabia</option><option value="arena" >arena</option><option value="megarandom" >megarandom</option><option value="glade" >glade</option><option value="lowland" >lowland</option><option value="haboob" >haboob</option><option value="graveyards" >graveyards</option><option value="socotra" >socotra</option><option value="shrubland" selected>shrubland</option><option value="valley" >valley</option><option value="scandanavia" >scandanavia</option><option value="paradise_island" >paradise_island</option><option value="passage" >passage</option><option value="african_clearing" >african_clearing</option><option value="yucatan" >yucatan</option><option value="golden_swamp" >golden_swamp</option><option value="fortress" >fortress</option><option value="steppe" >steppe</option><option value="fortified_clearing" >fortified_clearing</option><option value="canals" >canals</option><option value="coastal" >coastal</option>
+    </select>
+  </div>
+  <div class="campo">
+    <label for="bucket">Tramo de Elo</label>
+    <select name="bucket" id="bucket">
+      
+      <option value="all" >all</option>
+      
+      <option value="low" >low</option>
+      
+      <option value="med_low" >med_low</option>
+      
+      <option value="medium" >medium</option>
+      
+      <option value="med_high" selected>med_high</option>
+      
+      <option value="high" >high</option>
+      
+    </select>
+  </div>
+  <div class="campo">
+    <label for="orden">Ordenar por</label>
+    <select name="orden" id="orden">
+      <option value="win_rate" selected>win rate</option>
+      <option value="n" >partidas</option>
+      <option value="play_rate" >popularidad</option>
+    </select>
+  </div>
+  <button type="submit">Ver</button>
+</form>
+
+
+
+<section class="tarjeta">
+  <h2>Civilizaciones</h2>
+  
+  <table class="datos">
+    <thead><tr><th>civ</th><th>win rate</th><th>intervalo</th><th>partidas</th><th>popularidad</th></tr></thead>
+    <tbody>
+    
+      <tr><td><a href="civ-romans-med_high.html">romans</a></td>
+          <td class="num bien">62.9%</td>
+          <td class="num rango">54.1 – 70.9</td>
+          <td class="num">124</td>
+          <td class="num">1.2%</td></tr>
+    
+      <tr><td><a href="civ-portuguese-med_high.html">portuguese</a></td>
+          <td class="num bien">57.1%</td>
+          <td class="num rango">53.6 – 60.5</td>
+          <td class="num">797</td>
+          <td class="num">5.6%</td></tr>
+    
+      <tr><td><a href="civ-italians-med_high.html">italians</a></td>
+          <td class="num bien">57.0%</td>
+          <td class="num rango">46.8 – 66.6</td>
+          <td class="num">93</td>
+          <td class="num">0.8%</td></tr>
+    
+      <tr><td><a href="civ-wu-med_high.html">wu</a></td>
+          <td class="num bien">56.7%</td>
+          <td class="num rango">44.1 – 68.4</td>
+          <td class="num">60</td>
+          <td class="num">0.9%</td></tr>
+    
+      <tr><td><a href="civ-franks-med_high.html">franks</a></td>
+          <td class="num bien">56.5%</td>
+          <td class="num rango">53.4 – 59.6</td>
+          <td class="num">980</td>
+          <td class="num">5.2%</td></tr>
+    
+      <tr><td><a href="civ-mongols-med_high.html">mongols</a></td>
+          <td class="num bien">55.0%</td>
+          <td class="num rango">50.2 – 59.7</td>
+          <td class="num">418</td>
+          <td class="num">1.0%</td></tr>
+    
+      <tr><td><a href="civ-huns-med_high.html">huns</a></td>
+          <td class="num bien">54.6%</td>
+          <td class="num rango">45.7 – 63.3</td>
+          <td class="num">119</td>
+          <td class="num">0.8%</td></tr>
+    
+      <tr><td><a href="civ-tatars-med_high.html">tatars</a></td>
+          <td class="num bien">54.0%</td>
+          <td class="num rango">44.3 – 63.4</td>
+          <td class="num">100</td>
+          <td class="num">0.9%</td></tr>
+    
+      <tr><td><a href="civ-malians-med_high.html">malians</a></td>
+          <td class="num bien">52.7%</td>
+          <td class="num rango">43.5 – 61.8</td>
+          <td class="num">110</td>
+          <td class="num">0.8%</td></tr>
+    
+      <tr><td><a href="civ-lithuanians-med_high.html">lithuanians</a></td>
+          <td class="num bien">52.7%</td>
+          <td class="num rango">42.6 – 62.5</td>
+          <td class="num">93</td>
+          <td class="num">0.6%</td></tr>
+    
+      <tr><td><a href="civ-bengalis-med_high.html">bengalis</a></td>
+          <td class="num bien">52.6%</td>
+          <td class="num rango">42.7 – 62.4</td>
+          <td class="num">95</td>
+          <td class="num">0.9%</td></tr>
+    
+      <tr><td><a href="civ-shu-med_high.html">shu</a></td>
+          <td class="num bien">52.6%</td>
+          <td class="num rango">41.6 – 63.3</td>
+          <td class="num">78</td>
+          <td class="num">1.1%</td></tr>
+    
+      <tr><td><a href="civ-dravidians-med_high.html">dravidians</a></td>
+          <td class="num bien">52.2%</td>
+          <td class="num rango">40.5 – 63.7</td>
+          <td class="num">67</td>
+          <td class="num">0.8%</td></tr>
+    
+      <tr><td><a href="civ-gurjaras-med_high.html">gurjaras</a></td>
+          <td class="num ">51.5%</td>
+          <td class="num rango">41.8 – 61.1</td>
+          <td class="num">99</td>
+          <td class="num">1.1%</td></tr>
+    
+      <tr><td><a href="civ-bulgarians-med_high.html">bulgarians</a></td>
+          <td class="num ">51.0%</td>
+          <td class="num rango">43.0 – 59.0</td>
+          <td class="num">145</td>
+          <td class="num">1.1%</td></tr>
+    
+      <tr><td><a href="civ-magyars-med_high.html">magyars</a></td>
+          <td class="num ">51.0%</td>
+          <td class="num rango">44.2 – 57.7</td>
+          <td class="num">208</td>
+          <td class="num">0.9%</td></tr>
+    
+      <tr><td><a href="civ-bohemians-med_high.html">bohemians</a></td>
+          <td class="num ">50.0%</td>
+          <td class="num rango">39.7 – 60.3</td>
+          <td class="num">86</td>
+          <td class="num">0.8%</td></tr>
+    
+      <tr><td><a href="civ-wei-med_high.html">wei</a></td>
+          <td class="num ">50.0%</td>
+          <td class="num rango">41.3 – 58.7</td>
+          <td class="num">122</td>
+          <td class="num">0.9%</td></tr>
+    
+      <tr><td><a href="civ-berbers-med_high.html">berbers</a></td>
+          <td class="num ">49.6%</td>
+          <td class="num rango">41.5 – 57.8</td>
+          <td class="num">139</td>
+          <td class="num">1.1%</td></tr>
+    
+      <tr><td><a href="civ-saracens-med_high.html">saracens</a></td>
+          <td class="num ">49.3%</td>
+          <td class="num rango">41.1 – 57.5</td>
+          <td class="num">140</td>
+          <td class="num">1.1%</td></tr>
+    
+      <tr><td><a href="civ-armenians-med_high.html">armenians</a></td>
+          <td class="num ">49.2%</td>
+          <td class="num rango">40.9 – 57.7</td>
+          <td class="num">132</td>
+          <td class="num">1.0%</td></tr>
+    
+      <tr><td><a href="civ-incas-med_high.html">incas</a></td>
+          <td class="num ">49.1%</td>
+          <td class="num rango">40.2 – 58.1</td>
+          <td class="num">116</td>
+          <td class="num">1.0%</td></tr>
+    
+      <tr><td><a href="civ-spanish-med_high.html">spanish</a></td>
+          <td class="num ">49.0%</td>
+          <td class="num rango">42.4 – 55.8</td>
+          <td class="num">210</td>
+          <td class="num">1.2%</td></tr>
+    
+      <tr><td><a href="civ-ethiopians-med_high.html">ethiopians</a></td>
+          <td class="num ">48.7%</td>
+          <td class="num rango">39.9 – 57.6</td>
+          <td class="num">119</td>
+          <td class="num">0.8%</td></tr>
+    
+      <tr><td><a href="civ-cumans-med_high.html">cumans</a></td>
+          <td class="num ">48.7%</td>
+          <td class="num rango">40.9 – 56.5</td>
+          <td class="num">154</td>
+          <td class="num">1.2%</td></tr>
+    
+      <tr><td><a href="civ-vikings-med_high.html">vikings</a></td>
+          <td class="num ">48.4%</td>
+          <td class="num rango">38.4 – 58.5</td>
+          <td class="num">91</td>
+          <td class="num">0.8%</td></tr>
+    
+      <tr><td><a href="civ-hindustanis-med_high.html">hindustanis</a></td>
+          <td class="num ">48.3%</td>
+          <td class="num rango">41.1 – 55.6</td>
+          <td class="num">180</td>
+          <td class="num">1.2%</td></tr>
+    
+      <tr><td><a href="civ-persians-med_high.html">persians</a></td>
+          <td class="num ">48.2%</td>
+          <td class="num rango">41.2 – 55.2</td>
+          <td class="num">193</td>
+          <td class="num">0.8%</td></tr>
+    
+      <tr><td><a href="civ-chinese-med_high.html">chinese</a></td>
+          <td class="num ">48.1%</td>
+          <td class="num rango">38.8 – 57.5</td>
+          <td class="num">106</td>
+          <td class="num">0.7%</td></tr>
+    
+      <tr><td><a href="civ-burgundians-med_high.html">burgundians</a></td>
+          <td class="num mal">47.2%</td>
+          <td class="num rango">38.6 – 55.9</td>
+          <td class="num">123</td>
+          <td class="num">0.9%</td></tr>
+    
+      <tr><td><a href="civ-vietnamese-med_high.html">vietnamese</a></td>
+          <td class="num mal">46.9%</td>
+          <td class="num rango">39.1 – 55.0</td>
+          <td class="num">147</td>
+          <td class="num">0.8%</td></tr>
+    
+      <tr><td><a href="civ-byzantines-med_high.html">byzantines</a></td>
+          <td class="num mal">45.5%</td>
+          <td class="num rango">37.2 – 54.0</td>
+          <td class="num">132</td>
+          <td class="num">1.0%</td></tr>
+    
+      <tr><td><a href="civ-celts-med_high.html">celts</a></td>
+          <td class="num mal">45.3%</td>
+          <td class="num rango">36.1 – 54.8</td>
+          <td class="num">106</td>
+          <td class="num">1.0%</td></tr>
+    
+      <tr><td><a href="civ-khmer-med_high.html">khmer</a></td>
+          <td class="num mal">44.9%</td>
+          <td class="num rango">37.8 – 52.3</td>
+          <td class="num">178</td>
+          <td class="num">0.9%</td></tr>
+    
+      <tr><td><a href="civ-goths-med_high.html">goths</a></td>
+          <td class="num mal">44.1%</td>
+          <td class="num rango">35.3 – 53.4</td>
+          <td class="num">111</td>
+          <td class="num">1.0%</td></tr>
+    
+      <tr><td><a href="civ-burmese-med_high.html">burmese</a></td>
+          <td class="num mal">44.1%</td>
+          <td class="num rango">34.4 – 54.2</td>
+          <td class="num">93</td>
+          <td class="num">1.0%</td></tr>
+    
+      <tr><td><a href="civ-japanese-med_high.html">japanese</a></td>
+          <td class="num mal">43.8%</td>
+          <td class="num rango">36.3 – 51.5</td>
+          <td class="num">160</td>
+          <td class="num">0.9%</td></tr>
+    
+      <tr><td><a href="civ-mayans-med_high.html">mayans</a></td>
+          <td class="num mal">43.7%</td>
+          <td class="num rango">35.1 – 52.7</td>
+          <td class="num">119</td>
+          <td class="num">0.9%</td></tr>
+    
+      <tr><td><a href="civ-aztecs-med_high.html">aztecs</a></td>
+          <td class="num mal">43.4%</td>
+          <td class="num rango">34.1 – 53.3</td>
+          <td class="num">99</td>
+          <td class="num">0.9%</td></tr>
+    
+      <tr><td><a href="civ-koreans-med_high.html">koreans</a></td>
+          <td class="num mal">41.6%</td>
+          <td class="num rango">35.0 – 48.5</td>
+          <td class="num">202</td>
+          <td class="num">1.5%</td></tr>
+    
+      <tr><td><a href="civ-sicilians-med_high.html">sicilians</a></td>
+          <td class="num mal">40.9%</td>
+          <td class="num rango">32.3 – 50.0</td>
+          <td class="num">115</td>
+          <td class="num">1.1%</td></tr>
+    
+      <tr><td><a href="civ-turks-med_high.html">turks</a></td>
+          <td class="num mal">40.0%</td>
+          <td class="num rango">30.0 – 51.0</td>
+          <td class="num">80</td>
+          <td class="num">0.6%</td></tr>
+    
+      <tr><td><a href="civ-britons-med_high.html">britons</a></td>
+          <td class="num mal">39.9%</td>
+          <td class="num rango">32.1 – 48.2</td>
+          <td class="num">138</td>
+          <td class="num">1.0%</td></tr>
+    
+      <tr><td><a href="civ-slavs-med_high.html">slavs</a></td>
+          <td class="num mal">38.8%</td>
+          <td class="num rango">28.8 – 49.7</td>
+          <td class="num">80</td>
+          <td class="num">0.8%</td></tr>
+    
+      <tr><td><a href="civ-georgians-med_high.html">georgians</a></td>
+          <td class="num mal">38.3%</td>
+          <td class="num rango">28.4 – 49.2</td>
+          <td class="num">81</td>
+          <td class="num">0.9%</td></tr>
+    
+      <tr><td><a href="civ-malay-med_high.html">malay</a></td>
+          <td class="num mal">37.2%</td>
+          <td class="num rango">28.1 – 47.3</td>
+          <td class="num">94</td>
+          <td class="num">0.8%</td></tr>
+    
+      <tr><td><a href="civ-teutons-med_high.html">teutons</a></td>
+          <td class="num mal">37.2%</td>
+          <td class="num rango">28.8 – 46.4</td>
+          <td class="num">113</td>
+          <td class="num">0.8%</td></tr>
+    
+      <tr><td><a href="civ-poles-med_high.html">poles</a></td>
+          <td class="num mal">34.6%</td>
+          <td class="num rango">26.2 – 44.0</td>
+          <td class="num">107</td>
+          <td class="num">0.9%</td></tr>
+    
+    </tbody>
+  </table>
+</section>
+</main>
+
+  <footer>
+    Cada número lleva su fuente y su tamaño de muestra. Lo que no se midió, se dice.
+  </footer>
+</body>
+</html>

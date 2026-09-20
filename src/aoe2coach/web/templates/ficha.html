@@ -21,7 +21,7 @@
 
 <div class="filtros-civ">
   {% for b in ['all', 'low', 'med_low', 'medium', 'med_high', 'high'] %}
-    <a class="chip {% if b == f.bucket %}activo{% endif %}" href="/civ/{{ f.civ }}?bucket={{ b }}">{{ b }}</a>
+    <a class="chip {% if b == f.bucket %}activo{% endif %}" href="{{ u('civ', civ=f.civ, bucket=b) }}">{{ b }}</a>
   {% endfor %}
 </div>
 
@@ -108,5 +108,5 @@
   {% endif %}
 </section>
 
-<p><a class="volver" href="/datos">← volver a explorar datos</a></p>
+<p><a class="volver" href="{{ u('datos') }}">← volver a explorar datos</a></p>
 {% endblock %}
